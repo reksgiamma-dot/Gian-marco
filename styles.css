@@ -132,11 +132,11 @@ a { color: inherit; text-decoration: none; }
 .card__body span { color: var(--muted); font-size: 14px; }
 
 /* BRAND */
-.badges { display: grid; grid-template-columns: repeat(8, 1fr); gap: 18px; }
+.badges { display: grid; grid-template-columns: repeat(10, 1fr); gap: 16px; }
 .badge { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: #EEF6F8; border: 2px solid rgba(34, 229, 140, .55); box-shadow: 0 0 24px rgba(34, 229, 140, .15); transition: transform .35s, box-shadow .35s; overflow: hidden; }
 .badge img { width: 100%; height: 100%; object-fit: contain; }
 .badge:hover { transform: scale(1.06); box-shadow: 0 0 34px rgba(34, 229, 140, .4); }
-@media (max-width: 960px) { .badges { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
+@media (max-width: 960px) { .badges { grid-template-columns: repeat(5, 1fr); gap: 12px; } }
 
 /* GALLERIA */
 .gallery__grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 240px; gap: 12px; }
@@ -190,7 +190,7 @@ a { color: inherit; text-decoration: none; }
   .zoom__text--right { display: none; }
   .zoom__text--left { bottom: 12vh; }
   .form__row { grid-template-columns: 1fr; }
-  .badges { gap: 10px; }
+  .badges { grid-template-columns: repeat(4, 1fr); gap: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
