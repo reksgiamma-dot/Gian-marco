@@ -1,0 +1,127 @@
+(function () {
+  "use strict";
+
+  /* ---------- MENU ---------- */
+  var nav = document.getElementById("nav");
+  var burger = nav.querySelector(".nav__burger");
+  function onScrollNav() { nav.classList.toggle("is-solid", window.scrollY > 40); }
+  window.addEventListener("scroll", onScrollNav, { passive: true });
+  onScrollNav();
+  burger.addEventListener("click", function () {
+    var open = nav.classList.toggle("is-open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
+  });
+  nav.querySelectorAll(".nav__links a").forEach(function (a) {
+    a.addEventListener("click", function () {
+      nav.classList.remove("is-open");
+      burger.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  /* ---------- APERTURA: logo a 3 s, pulsante a 5 s ---------- */
+  var hero = document.querySelector(".hero");
+  var video = hero.querySelector("video");
+  setTimeout(function () { hero.classList.add("show-logo"); }, 3000);
+  setTimeout(function () { hero.classList.add("show-btn"); }, 5000);
+  var p = video.play && video.play();
+  if (p && p.catch) p.catch(function () {});
+
+  /* ---------- DATE ---------- */
+  // [anno, mese (1-12), giorno, nome, luogo]
+  var EVENTS = [
+    [2026, 10, 24, "Pre Partita Modena · Vibra Club", "Modena"],
+    [2026, 10, 25, "FPV Tigli Pop Up", "Formigine"],
+    [2026, 10, 29, "Lucca Comics · Euronics", "Lucca"],
+    [2026, 10, 30, "Lucca Comics · Euronics", "Lucca"],
+    [2026, 10, 31, "FPV Sausalito", "Sassuolo"],
+    [2026, 11, 8, "Coming Soon", "Rio Saliceto (RE)"],
+    [2026, 11, 27, "Milano Games Week · Euronics", "Milano"],
+    [2026, 11, 28, "Milano Games Week · Euronics", "Milano"],
+    [2026, 12, 18, "Off", "Modena"],
+    [2026, 12, 24, "Coming Soon", "Soliera"],
+    [2026, 12, 25, "Vibra Club", "Modena"],
+    [2026, 12, 31, "Coming Soon", "Luogo da annunciare"]
+  ];
+  var MESI = ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
+  var GIORNI = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var list = document.getElementById("events");
+  EVENTS.forEach(function (e) {
+    var d = new Date(e[0], e[1] - 1, e[2]);
+    var past = d < today;
+    var li = document.createElement("li");
+    li.className = "event" + (past ? " is-past" : "");
+    li.innerHTML =
+      '<div class="event__when"><span class="event__month">' + MESI[e[1] - 1] + '</span>' +
+      '<span class="event__day">' + String(e[2]).padStart(2, "0") + '</span></div>' +
+      '<div><p class="event__name"></p><p class="event__where"></p></div>' +
+      '<span class="event__tag">' + (past ? "Passata" : "Info a breve") + '</span>';
+    li.querySelector(".event__name").textContent = e[3];
+    li.querySelector(".event__where").textContent = e[4] + " · " + GIORNI[d.getDay()];
+    list.appendChild(li);
+  });
+
+  /* ---------- ZOOM: dal joystick a mezzo busto ---------- */
+  var zoom = document.querySelector(".zoom");
+  var stage = zoom.querySelector(".zoom__stage");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function range(p, a, b) { return clamp((p - a) / (b - a), 0, 1); }
+  function set(k, v) { stage.style.setProperty(k, v); }
+  var ticking = false;
+  function updateZoom() {
+    ticking = false;
+    var r = zoom.getBoundingClientRect();
+    var total = zoom.offsetHeight - window.innerHeight;
+    var prog = reduce ? 1 : clamp(-r.top / total, 0, 1);
+    var z = ease(range(prog, 0, 0.75));
+    // all'inizio il joystick e' al centro dello schermo, alla fine mezzo busto intero
+    var photo = stage.querySelector(".zoom__photo");
+    var ctrlY = photo.offsetTop + photo.offsetHeight * 0.356;
+    var startPy = window.innerHeight * 0.5 - ctrlY;
+    set("--ps", (3.6 - 2.82 * z).toFixed(4));
+    set("--py", (startPy * (1 - z)).toFixed(1) + "px");
+    set("--rs", (1 + 1.6 * range(prog, 0, 0.3)).toFixed(3));
+    set("--ro", (1 - range(prog, 0.05, 0.3)).toFixed(3));
+    set("--ws", (0.7 + 0.3 * ease(range(prog, 0.2, 0.8))).toFixed(3));
+    set("--wo", range(prog, 0.2, 0.6).toFixed(3));
+    set("--bgo", (0.6 * range(prog, 0.3, 0.8)).toFixed(3));
+    set("--to", range(prog, 0.7, 0.9).toFixed(3));
+    set("--ho", (1 - range(prog, 0, 0.12)).toFixed(3));
+  }
+  function requestZoom() { if (!ticking) { ticking = true; requestAnimationFrame(updateZoom); } }
+  window.addEventListener("scroll", requestZoom, { passive: true });
+  window.addEventListener("resize", requestZoom);
+  updateZoom();
+
+  /* ---------- COMPARSA AL PASSAGGIO ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- BOOKING ---------- */
+  var form = document.getElementById("booking-form");
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = new FormData(form);
+    var body =
+      "Nome: " + (f.get("nome") || "") + "\n" +
+      "Email: " + (f.get("email") || "") + "\n" +
+      "Data evento: " + (f.get("data") || "da definire") + "\n" +
+      "Tipo di evento: " + (f.get("tipo") || "") + "\n\n" +
+      (f.get("messaggio") || "");
+    window.location.href = "mailto:2024eventi@gmail.com" +
+      "?subject=" + encodeURIComponent("Nuova richiesta di booking dal sito") +
+      "&body=" + encodeURIComponent(body);
+  });
+})();

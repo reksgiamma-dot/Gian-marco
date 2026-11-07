@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dj Reks · L'unico DJ che suona con un joystick</title>
+  <meta name="description" content="Dj Reks, DJ di Modena dal 2009: l'unico DJ che suona con un joystick. Hip Hop, Trap, EDM e grandi classici. Date, social e booking.">
+  <meta property="og:title" content="Dj Reks · L'unico DJ che suona con un joystick">
+  <meta property="og:description" content="Hip Hop, Trap, EDM e grandi classici in uno show dove il pubblico gioca con la musica.">
+  <meta property="og:image" content="/assets/img/g1.webp">
+  <meta name="theme-color" content="#06080A">
+  <link rel="icon" href="/assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/orbitron-black.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" aria-label="Dj Reks, torna su"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
+  <nav class="nav__links" aria-label="Menu principale">
+    <a href="#date">Date</a>
+    <a href="#chi-sono">Chi sono</a>
+    <a href="#instagram">Instagram</a>
+    <a href="#social">Social</a>
+    <a href="#galleria">Galleria</a>
+    <a href="#booking" class="nav__cta">Booking</a>
+  </nav>
+  <button class="nav__burger" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<main>
+
+  <!-- APERTURA: video del joystick, poi logo e pulsante -->
+  <section class="hero" id="top">
+    <video class="hero__video" src="/assets/controller.mp4" autoplay muted playsinline preload="auto"></video>
+    <div class="hero__shade"></div>
+    <div class="hero__finale">
+      <img class="hero__logo" src="/assets/img/logo-payoff.png" alt="DJ REKS · L'unico DJ che suona con un joystick">
+      <a class="btn btn--primary hero__btn" href="#date">Scopri le date</a>
+    </div>
+  </section>
+
+  <!-- DATE con foto scontornata -->
+  <section class="date section" id="date">
+    <div class="wrap date__grid">
+      <div class="date__card reveal">
+        <span class="date__bigname" aria-hidden="true">DJ<br>REKS</span>
+        <div class="date__glow" aria-hidden="true"></div>
+        <img class="date__photo" src="/assets/img/dj-reks-scontornato.webp" alt="Dj Reks con il joystick della PlayStation" loading="lazy">
+      </div>
+      <div class="date__list">
+        <p class="eyebrow">Calendario</p>
+        <h2 class="h2">Prossime <span class="accent">date</span></h2>
+        <ol class="events" id="events"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZOOM: dal joystick a mezzo busto -->
+  <section class="zoom" id="chi-sono">
+    <div class="zoom__stage">
+      <div class="zoom__bg" aria-hidden="true"></div>
+      <span class="zoom__word" aria-hidden="true">REKS</span>
+      <div class="zoom__ring" aria-hidden="true"></div>
+      <img class="zoom__photo" src="/assets/img/dj-reks-scontornato.webp" alt="Dj Reks a mezzo busto con il joystick">
+      <div class="zoom__text zoom__text--left">
+        <p class="eyebrow">Dj Reks · Modena</p>
+        <h2 class="h2">L'unico DJ che suona con un <span class="accent">joystick</span></h2>
+      </div>
+      <div class="zoom__text zoom__text--right">
+        <p>In consolle dal 2009, dal 2015 suono con il controller della PlayStation grazie a un programma creato da me.</p>
+        <p>Hip Hop, Trap, EDM e grandi classici in uno show dove il pubblico gioca con la musica.</p>
+      </div>
+      <p class="zoom__hint" aria-hidden="true">Scorri ↓</p>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="insta section" id="instagram">
+    <div class="wrap insta__grid">
+      <img class="insta__photo reveal" src="/assets/img/bio.webp" alt="Dj Reks in studio con il joystick" loading="lazy">
+      <div class="insta__side">
+        <p class="eyebrow">Seguimi su Instagram</p>
+        <h2 class="h2">@djreks<span class="accent">_</span></h2>
+        <p class="lead">Backstage, serate e video dello show col joystick: tutto quello che succede in consolle lo trovi prima lì.</p>
+        <div class="insta__feed">
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g1.webp" alt="" loading="lazy"></a>
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g2.webp" alt="" loading="lazy"></a>
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g3.webp" alt="" loading="lazy"></a>
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g4.webp" alt="" loading="lazy"></a>
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g5.webp" alt="" loading="lazy"></a>
+          <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener"><img src="/assets/img/g6.webp" alt="" loading="lazy"></a>
+        </div>
+        <a class="btn btn--primary" href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener">Apri il profilo Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MUSICA & SOCIAL -->
+  <section class="social section" id="social">
+    <div class="wrap">
+      <p class="eyebrow">Ascolta e segui</p>
+      <h2 class="h2">Musica &amp; <span class="accent">Social</span></h2>
+      <div class="cards">
+        <a class="card reveal" href="https://open.spotify.com/intl-it/artist/7tQp4eVCoQc8Hg9oqXSeM0" target="_blank" rel="noopener">
+          <div class="card__cover"><span class="card__play">▶</span></div>
+          <div class="card__body"><strong>Spotify</strong><span>Ascolta su Spotify</span></div>
+        </a>
+        <a class="card reveal" href="https://www.tiktok.com/@djreks_" target="_blank" rel="noopener">
+          <div class="card__cover"><span class="card__play">▶</span></div>
+          <div class="card__body"><strong>TikTok</strong><span>Guarda gli show</span></div>
+        </a>
+        <a class="card reveal" href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener">
+          <div class="card__cover"><span class="card__play">▶</span></div>
+          <div class="card__body"><strong>Instagram</strong><span>Seguimi</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND -->
+  <section class="brand section" id="brand">
+    <div class="wrap">
+      <p class="eyebrow">Hanno lavorato con me</p>
+      <h2 class="h2"><span class="accent">Brand</span></h2>
+      <div class="badges">
+        <div class="badge reveal">Brand 1</div>
+        <div class="badge reveal">Brand 2</div>
+        <div class="badge reveal">Brand 3</div>
+        <div class="badge reveal">Brand 4</div>
+        <div class="badge reveal">Brand 5</div>
+        <div class="badge reveal">Brand 6</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERIA -->
+  <section class="gallery section" id="galleria">
+    <div class="wrap">
+      <p class="eyebrow">Galleria</p>
+      <h2 class="h2">Dalla <span class="accent">console</span></h2>
+      <div class="gallery__grid">
+        <img class="reveal big" src="/assets/img/g1.webp" alt="Dj Reks" loading="lazy">
+        <img class="reveal" src="/assets/img/g2.webp" alt="Dj Reks" loading="lazy">
+        <img class="reveal" src="/assets/img/g3.webp" alt="Dj Reks" loading="lazy">
+        <img class="reveal" src="/assets/img/g4.webp" alt="Dj Reks" loading="lazy">
+        <img class="reveal" src="/assets/img/g5.webp" alt="Dj Reks" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking section" id="booking">
+    <div class="wrap booking__grid">
+      <div>
+        <p class="eyebrow">Booking</p>
+        <h2 class="h2">Premi <span class="accent">start</span></h2>
+        <p class="lead">Club, feste private, matrimoni, eventi aziendali. Scrivimi data, luogo e tipo di evento e ti rispondo al più presto.</p>
+        <a class="mail" href="mailto:2024eventi@gmail.com">2024eventi@gmail.com</a>
+      </div>
+      <form class="form" id="booking-form">
+        <div class="form__row">
+          <label>Nome<input name="nome" required placeholder="Il tuo nome"></label>
+          <label>Email<input name="email" type="email" required placeholder="nome@email.it"></label>
+        </div>
+        <div class="form__row">
+          <label>Data evento<input name="data" type="date"></label>
+          <label>Tipo di evento
+            <select name="tipo">
+              <option>Club / Locale</option><option>Festa privata</option><option>Matrimonio</option><option>Evento aziendale</option><option>Altro</option>
+            </select>
+          </label>
+        </div>
+        <label>Messaggio<textarea name="messaggio" rows="5" placeholder="Raccontami l'evento"></textarea></label>
+        <button class="btn btn--primary btn--full" type="submit">Invia richiesta</button>
+        <p class="form__note">Si apre la tua app email con il messaggio già pronto.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__row">
+    <img src="/assets/img/logo.png" alt="DJ REKS" class="footer__logo">
+    <div class="footer__social">
+      <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@djreks_" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://open.spotify.com/intl-it/artist/7tQp4eVCoQc8Hg9oqXSeM0" target="_blank" rel="noopener">Spotify</a>
+    </div>
+    <p class="footer__copy">© 2026 Dj Reks</p>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
