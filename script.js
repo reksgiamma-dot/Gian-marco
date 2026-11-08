@@ -27,6 +27,15 @@
   var p = video.play && video.play();
   if (p && p.catch) p.catch(function () {});
 
+  /* ---------- SFONDO VIDEO: molto rallentato ---------- */
+  var bg = document.querySelector(".bgvid video");
+  if (bg) {
+    var slow = function () { bg.playbackRate = 0.3; };
+    slow();
+    bg.addEventListener("loadedmetadata", slow);
+    bg.addEventListener("play", slow);
+  }
+
   /* ---------- DATE ---------- */
   // [anno, mese (1-12), giorno, nome, luogo]
   var EVENTS = [
