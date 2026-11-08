@@ -16,7 +16,7 @@
   .wall__row { display: flex; gap: 14px; width: max-content; animation: wallL 60s linear infinite; }
   .wall__row:nth-child(2) { animation-name: wallR; animation-duration: 75s; }
   .wall__row:nth-child(3) { animation-duration: 90s; }
-  .wall__row img { height: clamp(150px, 22vw, 300px); width: auto; border-radius: 14px; filter: grayscale(.85) brightness(.75); transition: filter .4s, transform .4s; }
+  .wall__row img { width: clamp(150px, 20vw, 280px); aspect-ratio: 1; object-fit: cover; border-radius: 14px; filter: grayscale(.85) brightness(.75); transition: filter .4s, transform .4s; }
   .wall__row img:hover { filter: none; transform: scale(1.04); }
   .wall:hover .wall__row { animation-play-state: paused; }
   @keyframes wallL { to { transform: translateX(-50%); } }
@@ -47,16 +47,17 @@
 
   /* ===== CONCERTI ===== */
   .opened { padding: 120px 0; text-align: center; }
-  .opened__list { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 40px; font-family: var(--display); font-size: clamp(26px, 4.6vw, 64px); line-height: 1.15; text-transform: uppercase; }
-  .opened__list li { list-style: none; color: transparent; -webkit-text-stroke: 1.5px rgba(238,246,248,.5); transition: color .3s, -webkit-text-stroke-color .3s; }
-  .opened__list li.is-on, .opened__list li:hover { color: var(--accent); -webkit-text-stroke-color: var(--accent); text-shadow: 0 0 30px rgba(34,229,140,.45); }
+  .opened__list { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; font-family: var(--body); font-weight: 700; font-size: clamp(16px, 1.6vw, 21px); line-height: 1.3; text-transform: uppercase; letter-spacing: .06em; max-width: 1000px; margin-left: auto; margin-right: auto; }
+  .opened__list li { list-style: none; color: transparent; color: rgba(238,246,248,.35); transition: color .3s, -webkit-text-stroke-color .3s; }
+  .opened__list li.is-on, .opened__list li:hover { color: var(--text); }
+  .opened__list li:nth-child(3n+1).is-on { color: var(--accent); }
 
   @media (max-width: 760px) {
     .boom__grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); height: 78vh; }
     .boom__grid .boom__hero { grid-column: 1 / span 3; grid-row: 2 / span 2; }
     .boom__grid figure:nth-child(n+8) { display: block; }
     .boom__grid figure:nth-child(n+11) { display: none; }
-    .opened__list { gap: 4px 14px; }
+    .opened__list { gap: 8px 18px; }
   }
 </style>
 </head>
@@ -90,10 +91,7 @@
   <div class="wrap">
     <p class="eyebrow">Sul palco prima di loro</p>
     <h2 class="h2">Ho aperto con un DJ set <span class="accent">il concerto di:</span></h2>
-    <ul class="opened__list" id="opened">
-      <li>Guè Pequeño</li><li>Anna</li><li>Villabanks</li><li>Benny Benassi</li><li>Martin Garrix</li>
-      <li>Artista 6</li><li>Artista 7</li><li>Artista 8</li><li>Artista 9</li><li>Artista 10</li>
-    </ul>
+    <ul class="opened__list" id="opened"><li>Guè Pequeño</li><li>Anna</li><li>Villabanks</li><li>Benny Benassi</li><li>Martin Garrix</li><li>Artista 6</li><li>Artista 7</li><li>Artista 8</li><li>Artista 9</li><li>Artista 10</li><li>Artista 11</li><li>Artista 12</li><li>Artista 13</li><li>Artista 14</li><li>Artista 15</li><li>Artista 16</li><li>Artista 17</li><li>Artista 18</li><li>Artista 19</li><li>Artista 20</li><li>Artista 21</li><li>Artista 22</li><li>Artista 23</li><li>Artista 24</li><li>Artista 25</li><li>Artista 26</li><li>Artista 27</li><li>Artista 28</li><li>Artista 29</li><li>Artista 30</li></ul>
   </div>
 </section>
 
@@ -104,7 +102,7 @@
   var wall = document.getElementById("wall");
   [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]].forEach(function(row){
     var r = document.createElement("div"); r.className = "wall__row";
-    row.concat(row).forEach(function(n){ var i = new Image(); i.src = P(n); i.alt = ""; i.loading = "lazy"; r.appendChild(i); });
+    row.concat(row).forEach(function(n){ var i = new Image(); i.src = "/assets/serate-q/q" + String(n).padStart(2,"0") + ".webp"; i.alt = ""; i.loading = "lazy"; r.appendChild(i); });
     wall.appendChild(r);
   });
 

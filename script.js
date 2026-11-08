@@ -36,6 +36,28 @@
     bg.addEventListener("play", slow);
   }
 
+  /* ---------- GALLERIA: muro in movimento ---------- */
+  var wallIn = document.querySelector("#wall .wall__inner");
+  if (wallIn) {
+    [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]].forEach(function (row) {
+      var r = document.createElement("div"); r.className = "wall__row";
+      row.concat(row).forEach(function (n, k) {
+        var i = new Image(); i.src = "/assets/serate-q/q" + String(n).padStart(2, "0") + ".webp";
+        i.alt = k < row.length ? "Dj Reks in serata" : ""; i.loading = "lazy"; i.width = 280; i.height = 280;
+        r.appendChild(i);
+      });
+      wallIn.appendChild(r);
+    });
+    // su telefono (senza hover) si colora una foto a caso ogni tanto
+    if (!window.matchMedia("(hover: hover)").matches) {
+      var imgs = wallIn.querySelectorAll("img");
+      setInterval(function () {
+        imgs.forEach(function (x) { x.classList.remove("is-lit"); });
+        for (var q = 0; q < 3; q++) imgs[Math.floor(Math.random() * imgs.length)].classList.add("is-lit");
+      }, 1800);
+    }
+  }
+
   /* ---------- DATE ---------- */
   // [anno, mese (1-12), giorno, nome, luogo]
   var EVENTS = [
