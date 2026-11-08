@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suona come Dj Reks</title>
+  <meta name="description" content="Tocca i tasti del joystick e suona come Dj Reks.">
+  <meta name="theme-color" content="#06080A">
+  <link rel="icon" href="/assets/img/logo.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .play { min-height: 100svh; padding: 110px var(--gutter) 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .play .h2 { margin-bottom: 10px; }
+    .play__lead { color: var(--muted); max-width: 560px; margin: 0 auto 26px; }
+    .pad { position: relative; width: min(1100px, 100%); aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .pad img { width: 100%; height: 100%; display: block; -webkit-mask-image: radial-gradient(75% 85% at 50% 45%, #000 60%, transparent 100%); mask-image: radial-gradient(75% 85% at 50% 45%, #000 60%, transparent 100%); pointer-events: none; }
+    .pad__glow { position: absolute; inset: 0; background: radial-gradient(40% 40% at 50% 35%, rgba(34, 229, 140, .0), transparent 70%); transition: background .3s; pointer-events: none; }
+    .pad.is-loop .pad__glow { background: radial-gradient(45% 45% at 50% 35%, rgba(34, 229, 140, .18), transparent 70%); animation: beat .5s infinite; }
+    @keyframes beat { 0% { opacity: 1; } 60% { opacity: .35; } 100% { opacity: 1; } }
+    .key { position: absolute; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid rgba(34, 229, 140, .0); background: transparent; cursor: pointer; padding: 0; transition: border-color .25s, box-shadow .25s, background .25s; }
+    .key::after { content: attr(data-name); position: absolute; left: 50%; top: 100%; transform: translate(-50%, 6px); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); white-space: nowrap; opacity: 0; transition: opacity .2s; pointer-events: none; }
+    .pad.show-hints .key { border-color: rgba(34, 229, 140, .35); }
+    .pad.show-hints .key::after { opacity: .9; }
+    .key.is-hit { border-color: var(--accent); background: rgba(34, 229, 140, .28); box-shadow: 0 0 30px var(--glow), inset 0 0 20px var(--glow); transition: none; }
+    .key--touch { border-radius: 18px 18px 60px 60px; }
+    .key--touch .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 30px var(--accent); transform: translate(-50%, -50%); opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .key--touch.is-hit .dot { opacity: 1; transition: none; }
+    .play__bar { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .chip { font: inherit; font-size: 14px; color: var(--text); background: rgba(12, 16, 20, .85); border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; cursor: pointer; }
+    .chip.is-on { border-color: var(--accent); color: var(--accent); }
+    .play__tip { margin-top: 14px; font-size: 13px; color: var(--muted); }
+    @media (max-width: 600px) { .key::after { font-size: 7px; letter-spacing: .08em; } .pad { width: 100vw; max-width: none; border-radius: 0; } }
+  </style>
+</head>
+<body>
+<div class="bgvid" aria-hidden="true"><video src="/assets/pattern.mp4" poster="/assets/img/pattern-poster.jpg" autoplay muted loop playsinline></video></div>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="/" aria-label="Dj Reks, torna alla home"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
+  <nav class="nav__links" aria-label="Menu principale">
+    <a href="/">Home</a>
+    <a href="/#date">Date</a>
+    <a href="/#booking" class="nav__cta">Booking</a>
+  </nav>
+  <button class="nav__burger" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<main class="play">
+  <p class="eyebrow">Prova tu</p>
+  <h2 class="h2">Suona come <span class="accent">Dj Reks</span></h2>
+  <p class="play__lead">Tocca i tasti del joystick. Premi il tasto PlayStation per far partire la base e suonaci sopra.</p>
+
+  <div class="pad show-hints" id="pad">
+    <img src="/assets/img/joystick.webp" alt="Joystick della PlayStation">
+    <div class="pad__glow"></div>
+  </div>
+
+  <div class="play__bar">
+    <button class="chip" id="beat">▶ Base</button>
+    <button class="chip is-on" id="hints">Nomi dei tasti</button>
+  </div>
+  <p class="play__tip" id="tip">Se non senti nulla, alza il volume del telefono.</p>
+</main>
+
+<script>
+(function () {
+  var nav = document.getElementById("nav"), burger = nav.querySelector(".nav__burger");
+  burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
+  var bg = document.querySelector(".bgvid video"); if (bg) bg.playbackRate = .3;
+  // su iPhone fa suonare anche col silenzioso attivo
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+
+  /* ---------- MOTORE AUDIO (suoni creati nel browser) ---------- */
+  var ctx, master, noiseBuf;
+  function audio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createDynamicsCompressor(); master.threshold.value = -10; master.ratio.value = 4;
+      var g = ctx.createGain(); g.gain.value = .9; master.connect(g); g.connect(ctx.destination);
+      noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  function env(g, t, a, peak, dec) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec); }
+  function osc(type, f, t) { var o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t); return o; }
+  function noise(t, dur) { var s = ctx.createBufferSource(); s.buffer = noiseBuf; s.start(t); s.stop(t + dur); return s; }
+  function out(node, t, a, peak, dec, dest) { var g = ctx.createGain(); env(g, t, a, peak, dec); node.connect(g); g.connect(dest || master); return g; }
+
+  var S = {
+    kick: function (t) { var o = osc("sine", 150, t); o.frequency.exponentialRampToValueAtTime(42, t + .14); out(o, t, .002, 1, .45); o.start(t); o.stop(t + .5); },
+    clap: function (t) { var n = noise(t, .3), f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1500; f.Q.value = .8; n.connect(f); var g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); [0, .012, .024].forEach(function (d) { g.gain.setValueAtTime(.9, t + d); g.gain.exponentialRampToValueAtTime(.12, t + d + .01); }); g.gain.exponentialRampToValueAtTime(0.0001, t + .25); f.connect(g); g.connect(master); },
+    hat: function (t, open) { var n = noise(t, .4), f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 7500; n.connect(f); out(f, t, .001, .45, open ? .3 : .06); },
+    horn: function (t) { [0, .18, .36, .54].forEach(function (d, k) { var dur = k < 3 ? .14 : .5; [1, 1.5].forEach(function (m) { var o = osc("sawtooth", 466 * m, t + d); o.frequency.setValueAtTime(466 * m, t + d); o.frequency.linearRampToValueAtTime(440 * m, t + d + dur); var f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 2600; o.connect(f); out(f, t + d, .01, .22, dur); o.start(t + d); o.stop(t + d + dur + .05); }); }); },
+    laser: function (t) { var o = osc("square", 1800, t); o.frequency.exponentialRampToValueAtTime(120, t + .35); var f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 3000; o.connect(f); out(f, t, .002, .28, .35); o.start(t); o.stop(t + .4); },
+    drop: function (t) { var o = osc("sine", 220, t); o.frequency.exponentialRampToValueAtTime(38, t + 1.1); var d = ctx.createWaveShaper(); var c = new Float32Array(256); for (var i = 0; i < 256; i++) { var x = i / 128 - 1; c[i] = Math.tanh(x * 3); } d.curve = c; o.connect(d); out(d, t, .005, .7, 1.2); o.start(t); o.stop(t + 1.3); },
+    scratch: function (t) { var n = noise(t, .5), f = ctx.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 6; f.frequency.setValueAtTime(400, t); f.frequency.linearRampToValueAtTime(2400, t + .1); f.frequency.linearRampToValueAtTime(300, t + .2); f.frequency.linearRampToValueAtTime(2000, t + .3); f.frequency.linearRampToValueAtTime(500, t + .42); n.connect(f); out(f, t, .005, 1.4, .45); },
+    riser: function (t) { var n = noise(t, 1.6), f = ctx.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 3; f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(9000, t + 1.5); n.connect(f); var g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(.6, t + 1.45); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6); f.connect(g); g.connect(master); },
+    sub: function (t) { var o = osc("sine", 55, t); o.frequency.setValueAtTime(70, t); o.frequency.exponentialRampToValueAtTime(52, t + .08); out(o, t, .003, .95, .9); o.start(t); o.stop(t + 1); },
+    rim: function (t) { [800, 540].forEach(function (f0) { var o = osc("square", f0, t), f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 900; o.connect(f); out(f, t, .001, .25, .09); o.start(t); o.stop(t + .12); }); },
+    stab: function (t, x, y) { var notes = [220, 247, 262, 294, 330, 392, 440, 523]; var root = notes[Math.min(7, Math.floor(x * 8))] * (y < .5 ? 2 : 1); [1, 1.26, 1.5].forEach(function (m) { var o = osc("sawtooth", root * m, t), f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.setValueAtTime(4000, t); f.frequency.exponentialRampToValueAtTime(400, t + .4); o.connect(f); out(f, t, .005, .16, .45); o.start(t); o.stop(t + .5); }); },
+    siren: function (t) { var o = osc("sawtooth", 600, t), l = osc("sine", 5, t), lg = ctx.createGain(); lg.gain.value = 250; l.connect(lg); lg.connect(o.frequency); var f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 2500; o.connect(f); out(f, t, .02, .2, 1); o.start(t); l.start(t); o.stop(t + 1.05); l.stop(t + 1.05); }
+  };
+
+  /* ---------- BASE (tasto PlayStation) ---------- */
+  var loop = null, step = 0, nextT = 0, BPM = 124;
+  function tick() {
+    var spb = 60 / BPM / 4;
+    while (nextT < ctx.currentTime + .12) {
+      var s = step % 16;
+      if (s % 4 === 0) S.kick(nextT);
+      if (s % 4 === 2) S.hat(nextT, true); else S.hat(nextT, false);
+      if (s === 4 || s === 12) S.clap(nextT);
+      if (s === 3 || s === 11 || s === 14) S.sub(nextT);
+      nextT += spb; step++;
+    }
+  }
+  var beatBtn = document.getElementById("beat"), pad = document.getElementById("pad");
+  function toggleBeat() {
+    audio();
+    if (loop) { clearInterval(loop); loop = null; pad.classList.remove("is-loop"); beatBtn.textContent = "▶ Base"; beatBtn.classList.remove("is-on"); return; }
+    step = 0; nextT = ctx.currentTime + .05; tick(); loop = setInterval(tick, 25);
+    pad.classList.add("is-loop"); beatBtn.textContent = "■ Ferma base"; beatBtn.classList.add("is-on");
+  }
+  beatBtn.addEventListener("click", toggleBeat);
+
+  /* ---------- TASTI (posizioni in % sull'immagine) ---------- */
+  // [nome, x, y, larghezza, altezza, suono, tasto della tastiera]
+  var KEYS = [
+    ["Laser", 13.7, 33.6, 7, 12, "laser", "w"],
+    ["Scratch", 7.4, 45.2, 8, 11, "scratch", "a"],
+    ["Riser", 18.6, 45.2, 8, 11, "riser", "d"],
+    ["Drop", 12.6, 58.6, 7, 12, "drop", "s"],
+    ["Hi-hat", 86.1, 30.2, 7.5, 13, "hat", "i"],
+    ["Clap", 77.6, 45.2, 7.5, 13, "clap", "j"],
+    ["Horn", 94.6, 45.6, 7.5, 13, "horn", "l"],
+    ["Cassa", 86.7, 60.8, 7.5, 13, "kick", "k"],
+    ["Sub", 31.3, 69.5, 15, 24, "sub", "c"],
+    ["Rim", 67.9, 69.5, 15, 24, "rim", "n"],
+    ["Base", 49.2, 69.5, 7, 10, "beat", " "],
+    ["Sirena", 13.3, 14.5, 9, 8, "siren", "q"],
+    ["Sirena", 86, 14.5, 9, 8, "siren", "p"]
+  ];
+  var byKey = {};
+  function hit(el, name, ev) {
+    audio(); var t = ctx.currentTime + .005;
+    if (name === "beat") toggleBeat();
+    else if (name === "stab") {
+      var r = el.getBoundingClientRect(), x = ev ? (ev.clientX - r.left) / r.width : Math.random(), y = ev ? (ev.clientY - r.top) / r.height : .5;
+      x = Math.max(0, Math.min(.999, x)); y = Math.max(0, Math.min(1, y));
+      var dot = el.querySelector(".dot"); dot.style.left = (x * 100) + "%"; dot.style.top = (y * 100) + "%";
+      S.stab(t, x, y);
+    } else if (name === "hat") S.hat(t, true);
+    else S[name](t);
+    el.classList.add("is-hit");
+    clearTimeout(el._t); el._t = setTimeout(function () { el.classList.remove("is-hit"); }, 160);
+  }
+  function make(k) {
+    var b = document.createElement("button");
+    b.className = "key"; b.type = "button"; b.dataset.name = k[0]; b.setAttribute("aria-label", k[0]);
+    b.style.left = k[1] + "%"; b.style.top = k[2] + "%"; b.style.width = k[3] + "%"; b.style.height = k[4] + "%";
+    b.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(b, k[5], e); });
+    pad.appendChild(b); if (k[6]) byKey[k[6]] = [b, k[5]];
+  }
+  KEYS.forEach(make);
+  // touchpad: un accordo diverso a seconda di dove tocchi
+  var tp = document.createElement("button");
+  tp.className = "key key--touch"; tp.type = "button"; tp.dataset.name = "Touchpad · accordi"; tp.setAttribute("aria-label", "Touchpad, accordi");
+  tp.style.left = "49.6%"; tp.style.top = "32%"; tp.style.width = "45%"; tp.style.height = "36%";
+  tp.innerHTML = '<span class="dot"></span>';
+  tp.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(tp, "stab", e); });
+  pad.appendChild(tp);
+  "12345678".split("").forEach(function (c, i) { byKey[c] = [tp, "stab", i]; });
+
+  addEventListener("keydown", function (e) {
+    if (e.repeat || e.metaKey || e.ctrlKey) return;
+    var m = byKey[e.key.toLowerCase()]; if (!m) return; e.preventDefault();
+    if (m[1] === "stab") { var r = tp.getBoundingClientRect(); hit(tp, "stab", { clientX: r.left + r.width * (m[2] + .5) / 8, clientY: r.top + r.height * .7 }); }
+    else hit(m[0], m[1]);
+  });
+
+  var hintsBtn = document.getElementById("hints");
+  hintsBtn.addEventListener("click", function () { var on = pad.classList.toggle("show-hints"); hintsBtn.classList.toggle("is-on", on); });
+  // sul telefono i nomi partono nascosti (lo schermo è piccolo), si accendono col pulsante
+  if (innerWidth <= 600) { pad.classList.remove("show-hints"); hintsBtn.classList.remove("is-on"); }
+  if (matchMedia("(hover: hover)").matches) document.getElementById("tip").textContent = "Puoi suonare anche con la tastiera: W A S D, I J K L, C, N, Q, P, i numeri da 1 a 8 e la barra spaziatrice per la base.";
+})();
+</script>
+</body>
+</html>
