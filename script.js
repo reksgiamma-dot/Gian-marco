@@ -131,9 +131,9 @@
     var z = ease(range(prog, 0, 0.75));
     // all'inizio il joystick e' al centro dello schermo, alla fine mezzo busto intero
     var photo = stage.querySelector(".zoom__photo");
-    var ctrlY = photo.offsetTop + photo.offsetHeight * 0.356;
+    var ctrlY = photo.offsetTop + photo.offsetHeight * (window.innerWidth > 960 ? 0.27 : 0.30);
     var startPy = window.innerHeight * 0.5 - ctrlY;
-    set("--ps", (2.2 - 1.42 * z).toFixed(4));
+    set("--ps", (1.12 - 0.34 * z).toFixed(4));
     set("--py", (startPy * (1 - z)).toFixed(1) + "px");
     set("--rs", (1 + 1.6 * range(prog, 0, 0.3)).toFixed(3));
     set("--ro", (1 - range(prog, 0.05, 0.3)).toFixed(3));
