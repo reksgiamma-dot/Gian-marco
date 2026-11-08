@@ -306,3 +306,4 @@ body { background: transparent; }
 .zoom { height: 170vh; }
 .zoom__word { top: var(--wy, 30%); }
 @media (max-width: 760px) { .zoom__word { font-size: 16.5vw; } }
+.zoom__word, .zoom .zoom__word { font-size: var(--wf, 15vw); line-height: .8; }
