@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dj Reks × Kranos · Gaming</title>
+  <meta name="description" content="Dj Reks e Kranos: lo show col joystick negli eventi gaming, da Lucca Comics alla Milano Games Week.">
+  <meta name="theme-color" content="#06080A">
+  <link rel="icon" href="/assets/img/logo.png">
+  <link rel="preload" href="/assets/fonts/orbitron-black.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .kr-hero { min-height: 92svh; display: grid; place-items: center; text-align: center; padding: 120px var(--gutter) 60px; position: relative; overflow: hidden; }
+    .kr-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 45% at 50% 45%, rgba(34, 229, 140, .22), transparent 70%); }
+    .kr-hero > div { position: relative; }
+    .kr-logos { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 4vw, 48px); margin-bottom: 36px; }
+    .kr-logos img { height: clamp(70px, 12vw, 140px); width: auto; }
+    .kr-logos .kr-x { font-family: var(--display); font-size: clamp(28px, 5vw, 56px); color: var(--accent); }
+    .kr-kranos { filter: invert(1) drop-shadow(0 0 24px rgba(34, 229, 140, .5)); }
+    .kr-hero h1 { font-family: var(--display); font-weight: 900; font-size: clamp(34px, 6vw, 80px); line-height: 1.02; text-transform: uppercase; }
+    .kr-hero p { color: var(--muted); max-width: 640px; margin: 22px auto 30px; font-size: 18px; }
+    .kr-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .kr-text p { color: var(--muted); font-size: 17px; }
+    .kr-text p + p { margin-top: 14px; }
+    .kr-note { display: inline-block; margin-bottom: 14px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #06080A; background: var(--accent); padding: 4px 10px; border-radius: 999px; }
+    .kr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .kr-stat { padding: 22px 18px; border-radius: 18px; background: rgba(12, 16, 20, .85); border: 1px solid var(--line); }
+    .kr-stat strong { display: block; font-family: var(--display); font-size: 30px; color: var(--accent); }
+    .kr-stat span { color: var(--muted); font-size: 14px; }
+    .kr-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .kr-photos div { aspect-ratio: 1; border-radius: 18px; display: grid; place-items: center; background: radial-gradient(60% 60% at 50% 50%, rgba(34, 229, 140, .15), transparent 70%), var(--bg-3); border: 1px dashed rgba(34, 229, 140, .35); color: var(--muted); font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+    @media (max-width: 960px) { .kr-cols { grid-template-columns: 1fr; gap: 32px; } }
+    @media (max-width: 600px) { .kr-stats, .kr-photos { grid-template-columns: 1fr 1fr; } .kr-logos { gap: 12px; } .kr-logos img { height: auto; max-height: 56px; max-width: 38vw; } .kr-logos .kr-x { font-size: 26px; } }
+  </style>
+</head>
+<body>
+<div class="bgvid" aria-hidden="true">
+  <video src="/assets/pattern.mp4" poster="/assets/img/pattern-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
+</div>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="/" aria-label="Dj Reks, torna alla home"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
+  <nav class="nav__links" aria-label="Menu principale">
+    <a href="/">Home</a>
+    <a href="#chi-e-kranos">Kranos</a>
+    <a href="#date">Date gaming</a>
+    <a href="#foto">Foto</a>
+    <a href="#contatti" class="nav__cta">Booking gaming</a>
+  </nav>
+  <button class="nav__burger" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<main>
+  <section class="kr-hero">
+    <div>
+      <div class="kr-logos">
+        <img src="/assets/img/logo.png" alt="Dj Reks">
+        <span class="kr-x" aria-hidden="true">×</span>
+        <img class="kr-kranos" src="/assets/brand/kranos.png" alt="Kranos">
+      </div>
+      <p class="eyebrow">Dj Reks · Gaming</p>
+      <h1>Il DJ col joystick<br><span class="accent">nel mondo del gaming</span></h1>
+      <p>Insieme a Kranos porto lo show col controller della PlayStation negli eventi gaming più grandi d'Italia: fiere, store e palchi dove la musica si gioca.</p>
+      <a class="btn btn--primary" href="#date">Vedi le date gaming</a>
+    </div>
+  </section>
+
+  <section class="section" id="chi-e-kranos">
+    <div class="wrap kr-cols">
+      <div>
+        <p class="eyebrow">L'agenzia</p>
+        <h2 class="h2">Chi è <span class="accent">Kranos</span></h2>
+      </div>
+      <div class="kr-text">
+        <span class="kr-note">Testo provvisorio</span>
+        <p>Kranos è l'agenzia che mi segue nel mondo del gaming e mi trova le date negli eventi del settore, come Lucca Comics &amp; Games e la Milano Games Week, insieme a brand come Euronics.</p>
+        <p>Qui ci andrà la presentazione completa di Kranos: chi sono, cosa fanno e perché lo show col joystick è perfetto per il pubblico gaming.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="kr-stats">
+        <div class="kr-stat reveal"><strong>2015</strong><span>nasce lo show col joystick</span></div>
+        <div class="kr-stat reveal"><strong>101K</strong><span>follower su TikTok</span></div>
+        <div class="kr-stat reveal"><strong>Euronics</strong><span>partner degli eventi gaming</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="date section" id="date">
+    <div class="wrap">
+      <p class="eyebrow">Calendario</p>
+      <h2 class="h2">Date <span class="accent">gaming</span></h2>
+      <ol class="events" id="events"></ol>
+    </div>
+  </section>
+
+  <section class="section" id="foto">
+    <div class="wrap">
+      <p class="eyebrow">Galleria</p>
+      <h2 class="h2">Dagli eventi <span class="accent">gaming</span></h2>
+      <div class="kr-photos">
+        <div>Foto in arrivo</div><div>Foto in arrivo</div><div>Foto in arrivo</div>
+        <div>Foto in arrivo</div><div>Foto in arrivo</div><div>Foto in arrivo</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking section" id="contatti">
+    <div class="wrap" style="text-align:center">
+      <p class="eyebrow">Booking gaming</p>
+      <h2 class="h2">Porta lo show <span class="accent">al tuo evento</span></h2>
+      <p class="lead" style="margin: 0 auto 24px; max-width: 560px;">Fiere, store, tornei e lanci di prodotto: scrivici data, luogo e tipo di evento.</p>
+      <a class="btn btn--primary" href="mailto:2024eventi@gmail.com?subject=Richiesta%20evento%20gaming%20(Kranos)">Scrivici</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__row">
+    <img src="/assets/img/logo.png" alt="DJ REKS" class="footer__logo">
+    <div class="footer__social">
+      <a href="https://www.instagram.com/djreks_/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@djreks_" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://open.spotify.com/intl-it/artist/7tQp4eVCoQc8Hg9oqXSeM0" target="_blank" rel="noopener">Spotify</a>
+    </div>
+    <p class="footer__copy">© 2026 Dj Reks · <a href="/cookie-policy">Cookie e privacy</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var nav = document.getElementById("nav"), burger = nav.querySelector(".nav__burger");
+  function solid() { nav.classList.toggle("is-solid", scrollY > 40); }
+  addEventListener("scroll", solid, { passive: true }); solid();
+  burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
+  nav.querySelectorAll(".nav__links a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("is-open"); }); });
+  var bg = document.querySelector(".bgvid video"); if (bg) { var s = function () { bg.playbackRate = .3; }; s(); bg.addEventListener("play", s); }
+
+  // date gaming: le passate restano 3 giorni, poi spariscono
+  var EVENTS = [
+    [2026, 10, 29, "Lucca Comics & Games · Euronics", "Lucca"],
+    [2026, 10, 30, "Lucca Comics & Games · Euronics", "Lucca"],
+    [2026, 11, 27, "Milano Games Week · Euronics", "Milano"],
+    [2026, 11, 28, "Milano Games Week · Euronics", "Milano"]
+  ];
+  var MESI = ["GEN","FEB","MAR","APR","MAG","GIU","LUG","AGO","SET","OTT","NOV","DIC"];
+  var GIORNI = ["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"];
+  var today = new Date(); today.setHours(0,0,0,0);
+  var list = document.getElementById("events"), shown = 0;
+  EVENTS.forEach(function (e) {
+    var d = new Date(e[0], e[1]-1, e[2]), past = d < today;
+    if (past && (today - d) / 86400000 > 3) return;
+    var li = document.createElement("li"); li.className = "event" + (past ? " is-past" : "");
+    li.innerHTML = '<div class="event__when"><span class="event__month">' + MESI[e[1]-1] + '</span><span class="event__day">' + String(e[2]).padStart(2,"0") + '</span></div><div><p class="event__name"></p><p class="event__where"></p></div><span class="event__tag">' + (past ? "Passata" : "Info a breve") + '</span>';
+    li.querySelector(".event__name").textContent = e[3];
+    li.querySelector(".event__where").textContent = e[4] + " · " + GIORNI[d.getDay()];
+    list.appendChild(li); shown++;
+  });
+  if (!shown) list.innerHTML = '<li class="event"><div></div><p class="event__name">Nuove date gaming in arrivo</p></li>';
+
+  var rv = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("is-in"); io.unobserve(x.target); } }); }, { threshold: .12 });
+    rv.forEach(function (el) { io.observe(el); });
+  } else rv.forEach(function (el) { el.classList.add("is-in"); });
+})();
+</script>
+</body>
+</html>

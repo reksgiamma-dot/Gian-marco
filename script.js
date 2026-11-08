@@ -78,9 +78,11 @@
   var GIORNI = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
   var today = new Date(); today.setHours(0, 0, 0, 0);
   var list = document.getElementById("events");
+  var KEEP_DAYS = 3; // le date passate restano visibili per 3 giorni, poi spariscono
   EVENTS.forEach(function (e) {
     var d = new Date(e[0], e[1] - 1, e[2]);
     var past = d < today;
+    if (past && (today - d) / 86400000 > KEEP_DAYS) return;
     var li = document.createElement("li");
     li.className = "event" + (past ? " is-past" : "");
     li.innerHTML =
