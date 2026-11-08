@@ -304,3 +304,4 @@ body { background: transparent; }
 .date__grid { grid-template-columns: 1fr; max-width: 860px; margin: 0 auto; }
 @media (min-width: 961px) { .date__list { height: min(640px, 72vh); } }
 .zoom { height: 170vh; }
+.zoom__word { top: var(--wy, 30%); }
