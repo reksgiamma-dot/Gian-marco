@@ -305,3 +305,4 @@ body { background: transparent; }
 @media (min-width: 961px) { .date__list { height: min(640px, 72vh); } }
 .zoom { height: 170vh; }
 .zoom__word { top: var(--wy, 30%); }
+@media (max-width: 760px) { .zoom__word { font-size: 16.5vw; } }

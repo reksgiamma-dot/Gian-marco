@@ -140,9 +140,9 @@
     var ps = 1.12 - 0.34 * z, py = startPy * (1 - z);
     set("--ps", ps.toFixed(4));
     set("--py", py.toFixed(1) + "px");
-    // scritta DJ REKS appena sotto il cappello, dietro la foto
+    // scritta DJ REKS grande sopra il cappello, dietro la foto
     var H = photo.offsetHeight, y0 = H * 0.356;
-    set("--wy", (photo.offsetTop + py + y0 + (H * 0.165 - y0) * ps).toFixed(1) + "px");
+    set("--wy", (photo.offsetTop + py + y0 + (H * 0.0 - y0) * ps).toFixed(1) + "px");
     set("--rs", (1 + 1.6 * range(prog, 0, 0.3)).toFixed(3));
     set("--ro", (1 - range(prog, 0.05, 0.3)).toFixed(3));
     set("--ws", (0.75 + 0.25 * ease(range(prog, 0.45, 0.9))).toFixed(3));
