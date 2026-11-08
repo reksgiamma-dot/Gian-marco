@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Anteprima galleria · Dj Reks</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .demo-label { position: sticky; top: 0; z-index: 20; background: var(--accent); color: #06080A; font-family: var(--display); font-size: 14px; letter-spacing: .1em; padding: 10px var(--gutter); }
+
+  figure { margin: 0; }
+  /* ===== A · MURO IN MOVIMENTO ===== */
+  .wall { overflow: hidden; padding: 40px 0 100px; }
+  .wall__inner { transform: rotate(-4deg) scale(1.08); display: flex; flex-direction: column; gap: 14px; }
+  .wall__row { display: flex; gap: 14px; width: max-content; animation: wallL 60s linear infinite; }
+  .wall__row:nth-child(2) { animation-name: wallR; animation-duration: 75s; }
+  .wall__row:nth-child(3) { animation-duration: 90s; }
+  .wall__row img { height: clamp(150px, 22vw, 300px); width: auto; border-radius: 14px; filter: grayscale(.85) brightness(.75); transition: filter .4s, transform .4s; }
+  .wall__row img:hover { filter: none; transform: scale(1.04); }
+  .wall:hover .wall__row { animation-play-state: paused; }
+  @keyframes wallL { to { transform: translateX(-50%); } }
+  @keyframes wallR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .wall__title { text-align: center; margin-bottom: 40px; }
+
+  /* ===== B · FILM ORIZZONTALE ===== */
+  .film { position: relative; height: 420vh; }
+  .film__stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .film__head { padding: 0 var(--gutter); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: end; gap: 20px; }
+  .film__count { font-family: var(--display); font-size: clamp(40px, 7vw, 96px); color: transparent; -webkit-text-stroke: 2px var(--accent); line-height: 1; }
+  .film__track { display: flex; gap: 28px; padding: 0 var(--gutter); will-change: transform; }
+  .film__card { position: relative; flex: none; height: 64vh; border-radius: 22px; overflow: hidden; }
+  .film__card img { height: 100%; width: auto; max-width: none; transform: scale(1.15); transition: transform .2s linear; }
+  .film__card figcaption { position: absolute; left: 18px; bottom: 16px; font-family: var(--display); font-size: 13px; letter-spacing: .15em; text-transform: uppercase; background: rgba(6,8,10,.7); padding: 6px 12px; border-radius: 999px; }
+  .film__card.is-crowd { height: 50vh; align-self: center; }
+  .film__card.is-crowd figcaption { color: var(--accent); }
+
+  /* ===== C · ESPLOSIONE ===== */
+  .boom { position: relative; height: 300vh; }
+  .boom__stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; place-items: center; }
+  .boom__grid { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr); gap: 12px; width: min(1300px, 94vw); height: 82vh; }
+  .boom__grid figure { border-radius: 16px; overflow: hidden; opacity: var(--o, 0); transform: translate(var(--x), var(--y)) scale(var(--s, .6)); }
+  .boom__grid figure img { width: 100%; height: 100%; object-fit: cover; }
+  .boom__grid figure:nth-child(n+8) { display: none; }
+  .boom__grid .boom__hero { grid-column: 2 / span 3; grid-row: 1 / span 3; opacity: 1; transform: scale(var(--hs, 1.6)); z-index: 2; position: relative; }
+  .boom__grid .boom__hero::after { content: "DJ REKS LIVE"; position: absolute; inset: auto 0 6% 0; text-align: center; font-family: var(--display); font-size: clamp(28px, 5vw, 72px); color: #fff; text-shadow: 0 0 30px rgba(34,229,140,.8); opacity: var(--ht, 1); }
+
+  /* ===== CONCERTI ===== */
+  .opened { padding: 120px 0; text-align: center; }
+  .opened__list { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 40px; font-family: var(--display); font-size: clamp(26px, 4.6vw, 64px); line-height: 1.15; text-transform: uppercase; }
+  .opened__list li { list-style: none; color: transparent; -webkit-text-stroke: 1.5px rgba(238,246,248,.5); transition: color .3s, -webkit-text-stroke-color .3s; }
+  .opened__list li.is-on, .opened__list li:hover { color: var(--accent); -webkit-text-stroke-color: var(--accent); text-shadow: 0 0 30px rgba(34,229,140,.45); }
+
+  @media (max-width: 760px) {
+    .boom__grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); height: 78vh; }
+    .boom__grid .boom__hero { grid-column: 1 / span 3; grid-row: 2 / span 2; }
+    .boom__grid figure:nth-child(n+8) { display: block; }
+    .boom__grid figure:nth-child(n+11) { display: none; }
+    .opened__list { gap: 4px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="bgvid" aria-hidden="true"><video src="/assets/pattern.mp4" autoplay muted loop playsinline></video></div>
+
+<p class="demo-label" id="a">PROPOSTA A · MURO IN MOVIMENTO</p>
+<section class="wall">
+  <div class="wall__title"><p class="eyebrow">Galleria</p><h2 class="h2">Dalla <span class="accent">console</span></h2></div>
+  <div class="wall__inner" id="wall"></div>
+</section>
+
+<p class="demo-label" id="b">PROPOSTA B · FILM ORIZZONTALE</p>
+<section class="film" id="film">
+  <div class="film__stage">
+    <div class="film__head">
+      <div><p class="eyebrow">Galleria</p><h2 class="h2">Dalla <span class="accent">console</span></h2></div>
+      <span class="film__count" id="film-count">01</span>
+    </div>
+    <div class="film__track" id="film-track"></div>
+  </div>
+</section>
+
+<p class="demo-label" id="c">PROPOSTA C · ESPLOSIONE</p>
+<section class="boom" id="boom">
+  <div class="boom__stage"><div class="boom__grid" id="boom-grid"></div></div>
+</section>
+
+<p class="demo-label" id="d">NUOVA SEZIONE · CONCERTI (nomi di prova)</p>
+<section class="opened">
+  <div class="wrap">
+    <p class="eyebrow">Sul palco prima di loro</p>
+    <h2 class="h2">Ho aperto con un DJ set <span class="accent">il concerto di:</span></h2>
+    <ul class="opened__list" id="opened">
+      <li>Guè Pequeño</li><li>Anna</li><li>Villabanks</li><li>Benny Benassi</li><li>Martin Garrix</li>
+      <li>Artista 6</li><li>Artista 7</li><li>Artista 8</li><li>Artista 9</li><li>Artista 10</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+(function(){
+  var P = function(n){ return "/assets/serate/s" + String(n).padStart(2,"0") + ".webp"; };
+  // A: tre file di foto che scorrono
+  var wall = document.getElementById("wall");
+  [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]].forEach(function(row){
+    var r = document.createElement("div"); r.className = "wall__row";
+    row.concat(row).forEach(function(n){ var i = new Image(); i.src = P(n); i.alt = ""; i.loading = "lazy"; r.appendChild(i); });
+    wall.appendChild(r);
+  });
+
+  // B: pellicola orizzontale guidata dallo scroll
+  var track = document.getElementById("film-track");
+  var caps = ["Sul palco","Il pubblico","Sul palco","Il pubblico","Sul palco","Il pubblico","Sul palco","Il pubblico","Sul palco","Il pubblico","Sul palco","Il pubblico"];
+  [1,2,3,4,5,6,7,8,9,10,11,12].forEach(function(n,k){
+    var f = document.createElement("figure"); f.className = "film__card" + (k % 2 ? " is-crowd" : "");
+    f.innerHTML = '<img src="' + P(n) + '" alt=""><figcaption>' + caps[k] + '</figcaption>';
+    track.appendChild(f);
+  });
+  var film = document.getElementById("film"), count = document.getElementById("film-count");
+
+  // C: foto centrale che si stacca e rivela il mosaico
+  var grid = document.getElementById("boom-grid");
+  var order = [2,4,6,8,10,12,14,16,18,3,5,7];
+  var hero = document.createElement("figure"); hero.className = "boom__hero"; hero.innerHTML = '<img src="' + P(1) + '" alt="">';
+  var cells = [];
+  for (var k = 0; k < 12; k++) {
+    var f = document.createElement("figure");
+    var dx = (Math.random() - .5) * 60, dy = (Math.random() - .5) * 60;
+    f.style.setProperty("--x", dx + "vw"); f.style.setProperty("--y", dy + "vh");
+    f.innerHTML = '<img src="' + P(order[k]) + '" alt="">';
+    cells.push([f, dx, dy]); grid.appendChild(f);
+  }
+  grid.insertBefore(hero, grid.children[1]);
+  var boom = document.getElementById("boom");
+
+  var names = document.querySelectorAll("#opened li");
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function update(){
+    var vh = innerHeight;
+    // B
+    var r = film.getBoundingClientRect(), p = clamp(-r.top / (film.offsetHeight - vh));
+    var max = track.scrollWidth - innerWidth;
+    track.style.transform = "translateX(" + (-max * p) + "px)";
+    count.textContent = String(Math.min(12, 1 + Math.floor(p * 12))).padStart(2, "0");
+    track.querySelectorAll("img").forEach(function(img, i){ img.style.transform = "scale(1.15) translateX(" + ((p * 12 - i) * -2) + "%)"; });
+    // C
+    var b = boom.getBoundingClientRect(), q = ease(clamp(-b.top / (boom.offsetHeight - vh) / .8));
+    hero.style.setProperty("--hs", (1.6 - .6 * q).toFixed(3));
+    hero.style.setProperty("--ht", (1 - q * 1.4).toFixed(3));
+    cells.forEach(function(c){ c[0].style.setProperty("--o", q.toFixed(3)); c[0].style.setProperty("--s", (.6 + .4 * q).toFixed(3)); c[0].style.setProperty("--x", (c[1] * (1 - q)) + "vw"); c[0].style.setProperty("--y", (c[2] * (1 - q)) + "vh"); });
+    // concerti: i nomi si accendono uno alla volta
+    names.forEach(function(li){ var t = li.getBoundingClientRect().top; li.classList.toggle("is-on", t < vh * .7); });
+  }
+  addEventListener("scroll", function(){ requestAnimationFrame(update); }, { passive: true });
+  addEventListener("resize", update); update();
+  var v = document.querySelector(".bgvid video"); if (v) v.playbackRate = .3;
+})();
+</script>
+</body>
+</html>
