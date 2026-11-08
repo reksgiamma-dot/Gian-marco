@@ -122,12 +122,16 @@
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
   function range(p, a, b) { return clamp((p - a) / (b - a), 0, 1); }
   function set(k, v) { stage.style.setProperty(k, v); }
-  var ticking = false;
+  var ticking = false, cur = -1;
   function updateZoom() {
     ticking = false;
     var r = zoom.getBoundingClientRect();
     var total = zoom.offsetHeight - window.innerHeight;
-    var prog = reduce ? 1 : clamp(-r.top / total, 0, 1);
+    var target = reduce ? 1 : clamp(-r.top / total, 0, 1);
+    // movimento morbido: si avvicina al punto di scroll a ogni fotogramma
+    cur = cur < 0 ? target : cur + (target - cur) * 0.2;
+    if (Math.abs(target - cur) < 0.0005) cur = target; else requestZoom();
+    var prog = cur;
     var z = ease(range(prog, 0, 0.75));
     // all'inizio il joystick e' al centro dello schermo, alla fine mezzo busto intero
     var photo = stage.querySelector(".zoom__photo");
@@ -137,10 +141,10 @@
     set("--py", (startPy * (1 - z)).toFixed(1) + "px");
     set("--rs", (1 + 1.6 * range(prog, 0, 0.3)).toFixed(3));
     set("--ro", (1 - range(prog, 0.05, 0.3)).toFixed(3));
-    set("--ws", (0.7 + 0.3 * ease(range(prog, 0.2, 0.8))).toFixed(3));
-    set("--wo", range(prog, 0.2, 0.6).toFixed(3));
+    set("--ws", (0.75 + 0.25 * ease(range(prog, 0.45, 0.9))).toFixed(3));
+    set("--wo", range(prog, 0.45, 0.8).toFixed(3));
     set("--bgo", (0.6 * range(prog, 0.3, 0.8)).toFixed(3));
-    set("--to", range(prog, 0.7, 0.9).toFixed(3));
+    set("--to", range(prog, 0.65, 0.9).toFixed(3));
     set("--ho", (1 - range(prog, 0, 0.12)).toFixed(3));
   }
   function requestZoom() { if (!ticking) { ticking = true; requestAnimationFrame(updateZoom); } }

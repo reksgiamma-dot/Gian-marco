@@ -300,6 +300,7 @@ body { background: transparent; }
 @media (max-width: 520px) { .formats__grid { grid-template-columns: 1fr; } }
 
 /* 08/11 sera: zoom subito dopo l'apertura, scritta DJ REKS davanti alla foto, date a tutta larghezza */
-.zoom__word { font-size: 15vw; z-index: 3; -webkit-text-stroke: 2px rgba(34, 229, 140, .7); }
+.zoom__word { font-size: 15vw; z-index: 1; -webkit-text-stroke: 2px rgba(34, 229, 140, .7); }
 .date__grid { grid-template-columns: 1fr; max-width: 860px; margin: 0 auto; }
 @media (min-width: 961px) { .date__list { height: min(640px, 72vh); } }
+.zoom { height: 170vh; }
