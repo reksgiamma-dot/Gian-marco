@@ -95,6 +95,28 @@
     list.appendChild(li);
   });
 
+  // dati strutturati per Google: le date future come eventi (schema.org/Event)
+  var ldEvents = EVENTS.filter(function (e) { return new Date(e[0], e[1] - 1, e[2]) >= today; }).map(function (e) {
+    var iso = e[0] + "-" + String(e[1]).padStart(2, "0") + "-" + String(e[2]).padStart(2, "0");
+    return {
+      "@type": "MusicEvent",
+      "name": "Dj Reks live · " + e[3],
+      "startDate": iso,
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": e[4], "address": { "@type": "PostalAddress", "addressLocality": e[4], "addressCountry": "IT" } },
+      "performer": { "@type": "MusicGroup", "@id": "https://www.djreks.com/#dj-reks", "name": "Dj Reks" },
+      "image": "https://www.djreks.com/assets/img/og-dj-reks.jpg",
+      "description": "DJ set di Dj Reks, l'unico DJ che suona con un joystick."
+    };
+  });
+  if (ldEvents.length) {
+    var ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": ldEvents });
+    document.head.appendChild(ld);
+  }
+
   // su desktop la lista parte dalla prossima data
   var box = document.querySelector(".events__box");
   var next = list.querySelector(".event:not(.is-past)");
