@@ -31,7 +31,7 @@
   /* ---------- SFONDO VIDEO: molto rallentato ---------- */
   var bg = document.querySelector(".bgvid video");
   if (bg) {
-    var slow = function () { bg.playbackRate = 0.3; };
+    var slow = function () { bg.playbackRate = 0.1; };
     slow();
     bg.addEventListener("loadedmetadata", slow);
     bg.addEventListener("play", slow);
