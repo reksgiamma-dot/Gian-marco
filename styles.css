@@ -87,6 +87,8 @@ a { color: inherit; text-decoration: none; }
 .date__glow { position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; bottom: 10%; background: var(--accent); filter: blur(120px); opacity: .25; }
 .date__photo { position: relative; height: 88%; width: auto; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .6)); }
 .events { list-style: none; border-top: 1px solid var(--line); }
+.events__note { margin-top: 22px; color: var(--muted); font-size: 15px; text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
+.events__note a { color: var(--accent); }
 .event { display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line); transition: background .2s; }
 .event:hover { background: linear-gradient(90deg, rgba(34, 229, 140, .06), transparent); }
 .event__when { text-align: center; }
