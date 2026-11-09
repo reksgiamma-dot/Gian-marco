@@ -4,6 +4,8 @@
 User-agent: *
 Allow: /
 Disallow: /anteprima-galleria
+Disallow: /press-kit
+Disallow: /assets/press/
 
 # Motori di ricerca
 User-agent: Googlebot

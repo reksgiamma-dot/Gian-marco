@@ -48,6 +48,7 @@
   <meta name="theme-color" content="#06080A">
   <link rel="stylesheet" href="/styles.css">
   <style>
+    html, body { background: #000; }
     .play { min-height: 100svh; padding: 110px var(--gutter) 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .play .h2 { margin-bottom: 10px; }
     .play__lead { color: var(--muted); max-width: 560px; margin: 0 auto 26px; }
@@ -72,7 +73,6 @@
   </style>
 </head>
 <body>
-<div class="bgvid" aria-hidden="true"><video src="/assets/pattern.mp4" poster="/assets/img/pattern-poster.jpg" autoplay muted loop playsinline></video></div>
 
 <header class="nav" id="nav">
   <a class="nav__logo" href="/" aria-label="Dj Reks, torna alla home"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
@@ -109,7 +109,6 @@
 (function () {
   var nav = document.getElementById("nav"), burger = nav.querySelector(".nav__burger");
   burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
-  var bg = document.querySelector(".bgvid video"); if (bg) bg.playbackRate = .3;
   // su iPhone fa suonare anche col silenzioso attivo
   try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
 
