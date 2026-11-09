@@ -123,7 +123,29 @@
       var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
     }
     if (ctx.state === "suspended") ctx.resume();
+    loadSamples();
     return ctx;
+  }
+
+  /* ---------- CAMPIONI DI DJ REKS (file audio veri) ---------- */
+  var SAMPLES = { reks: 1, horn: 1, mitra: 1, ricarica: 1, shot: 1, sirena: 1, triplo: 1 };
+  // i file si scaricano subito all'apertura della pagina, così il primo tocco suona già
+  var buf = {}, raw = {}, playing = {}, wait = {};
+  function decode(n) {
+    if (!ctx || !raw[n] || buf[n]) return;
+    var a = raw[n]; raw[n] = null;
+    ctx.decodeAudioData(a, function (b) { buf[n] = b; if (wait[n]) { wait[n] = 0; sample(n, ctx.currentTime); } }, function () {});
+  }
+  function loadSamples() { Object.keys(SAMPLES).forEach(decode); }
+  Object.keys(SAMPLES).forEach(function (n) {
+    fetch("/assets/sounds/" + n + ".mp3").then(function (r) { return r.arrayBuffer(); })
+      .then(function (a) { raw[n] = a; decode(n); }).catch(function () {});
+  });
+  function sample(n, t) {
+    if (!buf[n]) { wait[n] = 1; return; } // al primo tocco suona appena il file è pronto
+    if (playing[n]) { try { playing[n].stop(t); } catch (e) {} }
+    var s = ctx.createBufferSource(), g = ctx.createGain(); g.gain.value = .9;
+    s.buffer = buf[n]; s.connect(g); g.connect(master); s.start(t); playing[n] = s;
   }
   function env(g, t, a, peak, dec) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec); }
   function osc(type, f, t) { var o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t); return o; }
@@ -170,19 +192,19 @@
   /* ---------- TASTI (posizioni in % sull'immagine) ---------- */
   // [nome, x, y, larghezza, altezza, suono, tasto della tastiera]
   var KEYS = [
-    ["Laser", 13.7, 33.6, 7, 12, "laser", "w"],
-    ["Scratch", 7.4, 45.2, 8, 11, "scratch", "a"],
-    ["Riser", 18.6, 45.2, 8, 11, "riser", "d"],
-    ["Drop", 12.6, 58.6, 7, 12, "drop", "s"],
-    ["Hi-hat", 86.1, 30.2, 7.5, 13, "hat", "i"],
-    ["Clap", 77.6, 45.2, 7.5, 13, "clap", "j"],
-    ["Horn", 94.6, 45.6, 7.5, 13, "horn", "l"],
-    ["Cassa", 86.7, 60.8, 7.5, 13, "kick", "k"],
+    ["Mitra", 13.7, 33.6, 7, 12, "mitra", "w"],
+    ["Horn", 7.4, 45.2, 8, 11, "horn", "a"],
+    ["Ricarica", 18.6, 45.2, 8, 11, "ricarica", "d"],
+    ["Dj Reks", 12.6, 58.6, 7, 12, "reks", "s"],
+    ["Triplo shot", 86.1, 30.2, 7.5, 13, "triplo", "i"],
+    ["Horn", 77.6, 45.2, 7.5, 13, "horn", "j"],
+    ["Shot", 94.6, 45.6, 7.5, 13, "shot", "l"],
+    ["Dj Reks", 86.7, 60.8, 7.5, 13, "reks", "k"],
     ["Sub", 31.3, 69.5, 15, 24, "sub", "c"],
     ["Rim", 67.9, 69.5, 15, 24, "rim", "n"],
     ["Base", 49.2, 69.5, 7, 10, "beat", " "],
-    ["Sirena", 13.3, 14.5, 9, 8, "siren", "q"],
-    ["Sirena", 86, 14.5, 9, 8, "siren", "p"]
+    ["Sirena", 13.3, 14.5, 9, 8, "sirena", "q"],
+    ["Sirena", 86, 14.5, 9, 8, "sirena", "p"]
   ];
   var byKey = {};
   function hit(el, name, ev) {
@@ -193,7 +215,8 @@
       x = Math.max(0, Math.min(.999, x)); y = Math.max(0, Math.min(1, y));
       var dot = el.querySelector(".dot"); dot.style.left = (x * 100) + "%"; dot.style.top = (y * 100) + "%";
       S.stab(t, x, y);
-    } else if (name === "hat") S.hat(t, true);
+    } else if (SAMPLES[name]) sample(name, t);
+    else if (name === "hat") S.hat(t, true);
     else S[name](t);
     el.classList.add("is-hit");
     clearTimeout(el._t); el._t = setTimeout(function () { el.classList.remove("is-hit"); }, 160);
