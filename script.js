@@ -62,18 +62,19 @@
   /* ---------- DATE ---------- */
   // [anno, mese (1-12), giorno, nome, luogo]
   var EVENTS = [
-    [2026, 10, 24, "Pre Partita Modena · Vibra Club", "Modena"],
-    [2026, 10, 25, "FPV Tigli Pop Up", "Formigine"],
-    [2026, 10, 29, "Lucca Comics · Euronics", "Lucca"],
-    [2026, 10, 30, "Lucca Comics · Euronics", "Lucca"],
-    [2026, 10, 31, "FPV Sausalito", "Sassuolo"],
-    [2026, 11, 8, "Coming Soon", "Rio Saliceto (RE)"],
+    [2026, 11, 13, "Vibra Club", "Modena"],
+    [2026, 11, 20, "Oltre Shake It", "Soliera"],
+    [2026, 11, 21, "Inaugurazione Carta Canta", "Soliera"],
     [2026, 11, 27, "Milano Games Week · Euronics", "Milano"],
     [2026, 11, 28, "Milano Games Week · Euronics", "Milano"],
+    [2026, 11, 28, "FPV Pulp", "Formigine"],
+    [2026, 12, 4, "Vibra Club", "Modena"],
     [2026, 12, 18, "Off", "Modena"],
-    [2026, 12, 24, "Coming Soon", "Soliera"],
-    [2026, 12, 25, "Vibra Club", "Modena"],
-    [2026, 12, 31, "Coming Soon", "Luogo da annunciare"]
+    [2026, 12, 24, "Dude", "Soliera"],
+    [2026, 12, 26, "Vibra Club", "Modena"],
+    [2026, 12, 30, "Coming Soon", ""],
+    [2026, 12, 31, "Coming Soon", ""],
+    [2027, 1, 23, "Vibra Club", "Modena"]
   ];
   var MESI = IS_EN ? ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
                    : ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
@@ -94,12 +95,13 @@
       '<div><p class="event__name"></p><p class="event__where"></p></div>' +
       '<span class="event__tag">' + (past ? (IS_EN ? "Past" : "Passata") : (IS_EN ? "Info soon" : "Info a breve")) + '</span>';
     li.querySelector(".event__name").textContent = e[3];
-    li.querySelector(".event__where").textContent = e[4] + " · " + GIORNI[d.getDay()];
+    var where = e[4] || (IS_EN ? "Venue to be announced" : "Luogo da annunciare");
+    li.querySelector(".event__where").textContent = where + " · " + GIORNI[d.getDay()];
     list.appendChild(li);
   });
 
   // dati strutturati per Google: le date future come eventi (schema.org/Event)
-  var ldEvents = EVENTS.filter(function (e) { return new Date(e[0], e[1] - 1, e[2]) >= today; }).map(function (e) {
+  var ldEvents = EVENTS.filter(function (e) { return e[4] && new Date(e[0], e[1] - 1, e[2]) >= today; }).map(function (e) {
     var iso = e[0] + "-" + String(e[1]).padStart(2, "0") + "-" + String(e[2]).padStart(2, "0");
     return {
       "@type": "MusicEvent",
