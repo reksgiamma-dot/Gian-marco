@@ -199,7 +199,7 @@
 
   /* ---------- BOOKING ---------- */
   // Matrimoni -> WhatsApp; tutto il resto -> email diretta (FormSubmit, senza aprire l'app di posta)
-  var WHATSAPP = ""; // numero con prefisso, solo cifre (es. 393331234567)
+  var WHATSAPP = "393460871640"; // numero con prefisso, solo cifre
   var EMAIL = "2024eventi@gmail.com";
   var EN = document.documentElement.lang === "en";
   var T = EN ? {
