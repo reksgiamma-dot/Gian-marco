@@ -56,6 +56,7 @@
     .kr-hero__in .kr-logos { justify-content: flex-start; }
     .kr-hero .kr-hero__in p { margin-left: 0; }
     .kr-hero__in .kr-logos img { height: clamp(40px, 4.4vw, 62px); max-width: 28vw; }
+    .kr-hero__in .kr-logos img.kr-kranos { height: clamp(96px, 10vw, 150px); max-width: none; }
     .kr-hero__in h1 { font-size: clamp(34px, 4.6vw, 64px); }
     /* foto principale con effetto neon, scanline e glitch */
     .kr-shot { position: relative; justify-self: center; width: min(430px, 82vw); aspect-ratio: 2 / 3; border-radius: 26px; overflow: hidden; transform: perspective(1000px) rotateY(var(--ry, -7deg)) rotateX(var(--rx, 2deg)); transition: transform .25s ease-out; box-shadow: 0 0 0 1px rgba(34, 229, 140, .55), 0 0 50px rgba(34, 229, 140, .35), 0 30px 80px rgba(0, 0, 0, .7); animation: krFloat 7s ease-in-out infinite; }
@@ -72,9 +73,10 @@
     @keyframes krGlitch2 { 0%, 88%, 92%, 96%, 100% { opacity: 0; transform: none; clip-path: none; } 90% { opacity: .55; transform: translate(10px, 0); clip-path: inset(30% 0 50% 0); } 93% { opacity: .5; transform: translate(-8px, 0); clip-path: inset(70% 0 10% 0); } 95% { opacity: .5; transform: translate(6px, 0); clip-path: inset(8% 0 80% 0); } }
     @media (prefers-reduced-motion: reduce) { .kr-shot, .kr-shot::after, .kr-shot .g { animation: none; } }
     /* galleria */
-    .kr-gal { columns: 3 260px; column-gap: 14px; }
-    .kr-gal button { display: block; width: 100%; margin: 0 0 14px; padding: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: none; cursor: zoom-in; break-inside: avoid; }
-    .kr-gal img { width: 100%; height: auto; display: block; transition: transform .5s ease, filter .5s ease; filter: saturate(.9); }
+    .kr-gal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .kr-gal button { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: none; cursor: zoom-in; aspect-ratio: 1; }
+    .kr-gal button.is-main { grid-column: 1 / -1; aspect-ratio: 16 / 9; border-color: rgba(34, 229, 140, .5); box-shadow: 0 0 40px rgba(34, 229, 140, .2); }
+    .kr-gal img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease, filter .5s ease; filter: saturate(.9); }
     .kr-gal button:hover img { transform: scale(1.05); filter: saturate(1.15); }
     .kr-lb { border: 0; padding: 0; background: transparent; max-width: 94vw; max-height: 92svh; }
     .kr-lb::backdrop { background: rgba(0, 0, 0, .92); }
@@ -95,7 +97,7 @@
     .kr-stat strong { display: block; font-family: var(--display); font-size: 30px; color: var(--accent); }
     .kr-stat span { color: var(--muted); font-size: 14px; }
     @media (max-width: 960px) { .kr-cols { grid-template-columns: 1fr; gap: 32px; } .kr-hero__in { grid-template-columns: 1fr; text-align: center; } .kr-hero__in .kr-logos { justify-content: center; } .kr-hero .kr-hero__in p { margin-left: auto; } .kr-shot { order: -1; width: min(340px, 74vw); --ry: 0deg; --rx: 0deg; } }
-    @media (max-width: 600px) { .kr-stats { grid-template-columns: 1fr 1fr; } .kr-gal { columns: 2; column-gap: 10px; } .kr-gal button { margin-bottom: 10px; } .kr-logos { gap: 12px; } .kr-logos img { height: auto; max-height: 56px; max-width: 38vw; } .kr-logos .kr-x { font-size: 26px; } }
+    @media (max-width: 600px) { .kr-stats { grid-template-columns: 1fr 1fr; } .kr-gal { grid-template-columns: 1fr 1fr; gap: 10px; } .kr-hero__in .kr-logos img.kr-kranos { height: 84px; max-height: 84px; } .kr-gal button.is-main { aspect-ratio: 3 / 2; } .kr-logos { gap: 12px; } .kr-logos img { height: auto; max-height: 56px; max-width: 38vw; } .kr-logos .kr-x { font-size: 26px; } }
   </style>
 </head>
 <body>
@@ -177,18 +179,13 @@
       <p class="eyebrow">Galleria</p>
       <h2 class="h2">Dagli eventi <span class="accent">gaming</span></h2>
       <div class="kr-gal" id="krGal">
-        <button type="button" aria-label="Ingrandisci foto 1"><img src="/assets/kranos/k1.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 2"><img src="/assets/kranos/k2.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 3"><img src="/assets/kranos/k3.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 4"><img src="/assets/kranos/k4.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 5"><img src="/assets/kranos/k5.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 6"><img src="/assets/kranos/k6.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 7"><img src="/assets/kranos/k7.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 8"><img src="/assets/kranos/k8.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 9"><img src="/assets/kranos/k9.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 10"><img src="/assets/kranos/k10.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 11"><img src="/assets/kranos/k11.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
-        <button type="button" aria-label="Ingrandisci foto 12"><img src="/assets/kranos/k12.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+        <button type="button" class="is-main" aria-label="Ingrandisci foto 1"><img src="/assets/kranos/k4.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="eager"></button>
+        <button type="button" aria-label="Ingrandisci foto 2"><img src="/assets/kranos/k1.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 3"><img src="/assets/kranos/k3.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 4"><img src="/assets/kranos/k7.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 5"><img src="/assets/kranos/k8.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 6"><img src="/assets/kranos/k2.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 7"><img src="/assets/kranos/k6.webp" alt="Dj Reks live a un evento gaming con Kranos" loading="lazy"></button>
       </div>
       <dialog class="kr-lb" id="krLb"><img alt=""><button type="button" aria-label="Chiudi">×</button></dialog>
       </div>
@@ -225,7 +222,7 @@
   burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
   nav.querySelectorAll(".nav__links a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("is-open"); }); });
 
-  // date gaming: le passate restano 3 giorni, poi spariscono
+  // date gaming: anche quelle passate restano in lista, segnate come "Passata"
   var EVENTS = [
     [2026, 10, 29, "Lucca Comics & Games · Euronics", "Lucca"],
     [2026, 10, 30, "Lucca Comics & Games · Euronics", "Lucca"],
@@ -238,7 +235,6 @@
   var list = document.getElementById("events"), shown = 0;
   EVENTS.forEach(function (e) {
     var d = new Date(e[0], e[1]-1, e[2]), past = d < today;
-    if (past && (today - d) / 86400000 > 3) return;
     var li = document.createElement("li"); li.className = "event" + (past ? " is-past" : "");
     li.innerHTML = '<div class="event__when"><span class="event__month">' + MESI[e[1]-1] + '</span><span class="event__day">' + String(e[2]).padStart(2,"0") + '</span></div><div><p class="event__name"></p><p class="event__where"></p></div>' + (past ? '<span class="event__tag">Passata</span>' : '');
     li.querySelector(".event__name").textContent = e[3];
