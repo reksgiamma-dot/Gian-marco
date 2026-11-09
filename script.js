@@ -1,5 +1,6 @@
 (function () {
   "use strict";
+  var IS_EN = document.documentElement.lang === "en";
 
   /* ---------- MENU ---------- */
   var nav = document.getElementById("nav");
@@ -43,7 +44,7 @@
       var r = document.createElement("div"); r.className = "wall__row";
       row.concat(row).forEach(function (n, k) {
         var i = new Image(); i.src = "/assets/serate-q/q" + String(n).padStart(2, "0") + ".webp";
-        i.alt = k < row.length ? "Dj Reks in serata" : ""; i.loading = "lazy"; i.width = 280; i.height = 280;
+        i.alt = k < row.length ? (IS_EN ? "Dj Reks live" : "Dj Reks in serata") : ""; i.loading = "lazy"; i.width = 280; i.height = 280;
         r.appendChild(i);
       });
       wallIn.appendChild(r);
@@ -74,8 +75,10 @@
     [2026, 12, 25, "Vibra Club", "Modena"],
     [2026, 12, 31, "Coming Soon", "Luogo da annunciare"]
   ];
-  var MESI = ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
-  var GIORNI = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+  var MESI = IS_EN ? ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+                   : ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
+  var GIORNI = IS_EN ? ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                     : ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
   var today = new Date(); today.setHours(0, 0, 0, 0);
   var list = document.getElementById("events");
   var KEEP_DAYS = 3; // le date passate restano visibili per 3 giorni, poi spariscono
@@ -89,7 +92,7 @@
       '<div class="event__when"><span class="event__month">' + MESI[e[1] - 1] + '</span>' +
       '<span class="event__day">' + String(e[2]).padStart(2, "0") + '</span></div>' +
       '<div><p class="event__name"></p><p class="event__where"></p></div>' +
-      '<span class="event__tag">' + (past ? "Passata" : "Info a breve") + '</span>';
+      '<span class="event__tag">' + (past ? (IS_EN ? "Past" : "Passata") : (IS_EN ? "Info soon" : "Info a breve")) + '</span>';
     li.querySelector(".event__name").textContent = e[3];
     li.querySelector(".event__where").textContent = e[4] + " · " + GIORNI[d.getDay()];
     list.appendChild(li);
@@ -195,18 +198,53 @@
   }
 
   /* ---------- BOOKING ---------- */
+  // Matrimoni -> WhatsApp; tutto il resto -> email diretta (FormSubmit, senza aprire l'app di posta)
+  var WHATSAPP = ""; // numero con prefisso, solo cifre (es. 393331234567)
+  var EMAIL = "2024eventi@gmail.com";
+  var EN = document.documentElement.lang === "en";
+  var T = EN ? {
+    sending: "Sending…", ok: "Thanks! Your request has been sent: I'll get back to you soon.",
+    err: "Something went wrong. Write to me at " + EMAIL + ".", wa: "Opening WhatsApp…",
+    subject: "New booking request from the website", name: "Name", date: "Event date", type: "Event type", tbd: "to be defined"
+  } : {
+    sending: "Invio in corso…", ok: "Grazie! La richiesta è arrivata: ti rispondo al più presto.",
+    err: "Qualcosa non ha funzionato. Scrivimi a " + EMAIL + ".", wa: "Si apre WhatsApp…",
+    subject: "Nuova richiesta di booking dal sito", name: "Nome", date: "Data evento", type: "Tipo di evento", tbd: "da definire"
+  };
   var form = document.getElementById("booking-form");
+  var note = document.getElementById("form-note");
+  var btn = form.querySelector('button[type="submit"]');
   form.addEventListener("submit", function (ev) {
     ev.preventDefault();
     var f = new FormData(form);
+    var tipo = f.get("tipo") || "";
     var body =
-      "Nome: " + (f.get("nome") || "") + "\n" +
+      T.name + ": " + (f.get("nome") || "") + "\n" +
       "Email: " + (f.get("email") || "") + "\n" +
-      "Data evento: " + (f.get("data") || "da definire") + "\n" +
-      "Tipo di evento: " + (f.get("tipo") || "") + "\n\n" +
+      T.date + ": " + (f.get("data") || T.tbd) + "\n" +
+      T.type + ": " + tipo + "\n\n" +
       (f.get("messaggio") || "");
-    window.location.href = "mailto:2024eventi@gmail.com" +
-      "?subject=" + encodeURIComponent("Nuova richiesta di booking dal sito") +
-      "&body=" + encodeURIComponent(body);
+    var wedding = /matrimon|wedding/i.test(tipo);
+    if (wedding && WHATSAPP) {
+      note.textContent = T.wa;
+      window.location.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(T.subject + "\n\n" + body);
+      return;
+    }
+    btn.disabled = true; note.textContent = T.sending;
+    fetch("https://formsubmit.co/ajax/" + EMAIL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: T.subject + " · " + tipo, _template: "table", _captcha: "false",
+        nome: f.get("nome"), email: f.get("email"), _replyto: f.get("email"),
+        data: f.get("data") || T.tbd, tipo: tipo, messaggio: f.get("messaggio") || ""
+      })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      if (!(d && (d.success === true || d.success === "true"))) throw new Error("invio");
+      form.reset(); note.textContent = T.ok; btn.disabled = false;
+    }).catch(function () {
+      btn.disabled = false; note.textContent = T.err;
+      window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(T.subject) + "&body=" + encodeURIComponent(body);
+    });
   });
 })();
