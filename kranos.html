@@ -52,7 +52,34 @@
     .bgvid--still { background: url("/assets/img/pattern-poster.jpg") center / cover no-repeat; }
     .kr-hero { min-height: 92svh; display: grid; place-items: center; text-align: center; padding: 120px var(--gutter) 60px; position: relative; overflow: hidden; }
     .kr-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 45% at 50% 45%, rgba(34, 229, 140, .22), transparent 70%); }
-    .kr-hero > div { position: relative; }
+    .kr-hero__in { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(30px, 5vw, 70px); align-items: center; max-width: 1180px; width: 100%; text-align: left; }
+    .kr-hero__in .kr-logos { justify-content: flex-start; }
+    .kr-hero .kr-hero__in p { margin-left: 0; }
+    .kr-hero__in .kr-logos img { height: clamp(40px, 4.4vw, 62px); max-width: 28vw; }
+    .kr-hero__in h1 { font-size: clamp(34px, 4.6vw, 64px); }
+    /* foto principale con effetto neon, scanline e glitch */
+    .kr-shot { position: relative; justify-self: center; width: min(430px, 82vw); aspect-ratio: 2 / 3; border-radius: 26px; overflow: hidden; transform: perspective(1000px) rotateY(var(--ry, -7deg)) rotateX(var(--rx, 2deg)); transition: transform .25s ease-out; box-shadow: 0 0 0 1px rgba(34, 229, 140, .55), 0 0 50px rgba(34, 229, 140, .35), 0 30px 80px rgba(0, 0, 0, .7); animation: krFloat 7s ease-in-out infinite; }
+    .kr-shot img, .kr-shot .g { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .kr-shot .g { background: url("/assets/kranos/kranos-main.webp") center / cover; mix-blend-mode: screen; opacity: 0; }
+    .kr-shot .g1 { filter: sepia(1) saturate(8) hue-rotate(-50deg); animation: krGlitch1 5s steps(1) infinite; }
+    .kr-shot .g2 { filter: sepia(1) saturate(8) hue-rotate(120deg); animation: krGlitch2 5s steps(1) infinite; }
+    .kr-shot::before { content: ""; position: absolute; inset: 0; z-index: 2; background: repeating-linear-gradient(180deg, transparent 0 3px, rgba(0, 0, 0, .16) 3px 4px); pointer-events: none; }
+    .kr-shot::after { content: ""; position: absolute; inset: -50% 0; z-index: 3; background: linear-gradient(180deg, transparent 40%, rgba(34, 229, 140, .22) 50%, transparent 60%); animation: krScan 4.5s linear infinite; pointer-events: none; }
+    .kr-shot__tag { position: absolute; left: 14px; bottom: 14px; z-index: 4; font-family: var(--display); font-size: 12px; letter-spacing: .16em; color: #06080A; background: var(--accent); padding: 6px 10px; border-radius: 999px; }
+    @keyframes krFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+    @keyframes krScan { from { transform: translateY(-30%); } to { transform: translateY(30%); } }
+    @keyframes krGlitch1 { 0%, 88%, 92%, 96%, 100% { opacity: 0; transform: none; clip-path: none; } 89% { opacity: .6; transform: translate(-10px, 0); clip-path: inset(18% 0 58% 0); } 91% { opacity: .6; transform: translate(8px, 0); clip-path: inset(62% 0 20% 0); } 94% { opacity: .5; transform: translate(-6px, 0); clip-path: inset(40% 0 44% 0); } }
+    @keyframes krGlitch2 { 0%, 88%, 92%, 96%, 100% { opacity: 0; transform: none; clip-path: none; } 90% { opacity: .55; transform: translate(10px, 0); clip-path: inset(30% 0 50% 0); } 93% { opacity: .5; transform: translate(-8px, 0); clip-path: inset(70% 0 10% 0); } 95% { opacity: .5; transform: translate(6px, 0); clip-path: inset(8% 0 80% 0); } }
+    @media (prefers-reduced-motion: reduce) { .kr-shot, .kr-shot::after, .kr-shot .g { animation: none; } }
+    /* galleria */
+    .kr-gal { columns: 3 260px; column-gap: 14px; }
+    .kr-gal button { display: block; width: 100%; margin: 0 0 14px; padding: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: none; cursor: zoom-in; break-inside: avoid; }
+    .kr-gal img { width: 100%; height: auto; display: block; transition: transform .5s ease, filter .5s ease; filter: saturate(.9); }
+    .kr-gal button:hover img { transform: scale(1.05); filter: saturate(1.15); }
+    .kr-lb { border: 0; padding: 0; background: transparent; max-width: 94vw; max-height: 92svh; }
+    .kr-lb::backdrop { background: rgba(0, 0, 0, .92); }
+    .kr-lb img { max-width: 94vw; max-height: 92svh; width: auto; height: auto; border-radius: 14px; display: block; }
+    .kr-lb button { position: fixed; top: 16px; right: 16px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: rgba(12, 16, 20, .9); color: var(--text); font-size: 22px; cursor: pointer; }
     .kr-logos { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 4vw, 48px); margin-bottom: 36px; }
     .kr-logos img { height: clamp(70px, 12vw, 140px); width: auto; max-width: 40vw; object-fit: contain; }
     .kr-logos .kr-x { font-family: var(--display); font-size: clamp(28px, 5vw, 56px); color: var(--accent); }
@@ -67,10 +94,8 @@
     .kr-stat { padding: 22px 18px; border-radius: 18px; background: rgba(12, 16, 20, .85); border: 1px solid var(--line); }
     .kr-stat strong { display: block; font-family: var(--display); font-size: 30px; color: var(--accent); }
     .kr-stat span { color: var(--muted); font-size: 14px; }
-    .kr-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .kr-photos div { aspect-ratio: 1; border-radius: 18px; display: grid; place-items: center; background: radial-gradient(60% 60% at 50% 50%, rgba(34, 229, 140, .15), transparent 70%), var(--bg-3); border: 1px dashed rgba(34, 229, 140, .35); color: var(--muted); font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
-    @media (max-width: 960px) { .kr-cols { grid-template-columns: 1fr; gap: 32px; } }
-    @media (max-width: 600px) { .kr-stats, .kr-photos { grid-template-columns: 1fr 1fr; } .kr-logos { gap: 12px; } .kr-logos img { height: auto; max-height: 56px; max-width: 38vw; } .kr-logos .kr-x { font-size: 26px; } }
+    @media (max-width: 960px) { .kr-cols { grid-template-columns: 1fr; gap: 32px; } .kr-hero__in { grid-template-columns: 1fr; text-align: center; } .kr-hero__in .kr-logos { justify-content: center; } .kr-hero .kr-hero__in p { margin-left: auto; } .kr-shot { order: -1; width: min(340px, 74vw); --ry: 0deg; --rx: 0deg; } }
+    @media (max-width: 600px) { .kr-stats { grid-template-columns: 1fr 1fr; } .kr-gal { columns: 2; column-gap: 10px; } .kr-gal button { margin-bottom: 10px; } .kr-logos { gap: 12px; } .kr-logos img { height: auto; max-height: 56px; max-width: 38vw; } .kr-logos .kr-x { font-size: 26px; } }
   </style>
 </head>
 <body>
@@ -94,7 +119,8 @@
 
 <main>
   <section class="kr-hero">
-    <div>
+    <div class="kr-hero__in">
+      <div>
       <div class="kr-logos">
         <img src="/assets/img/logo.png" alt="Dj Reks">
         <span class="kr-x" aria-hidden="true">×</span>
@@ -104,6 +130,12 @@
       <h1>Il DJ col joystick<br><span class="accent">nel mondo del gaming</span></h1>
       <p>Insieme a Kranos porto lo show col controller della PlayStation negli eventi gaming più grandi d'Italia: fiere, store e palchi dove la musica si gioca.</p>
       <a class="btn btn--primary" href="#date">Vedi le date gaming</a>
+      </div>
+      <figure class="kr-shot" id="krShot">
+        <img src="/assets/kranos/kranos-main.webp" alt="Dj Reks seduto sulla sedia gaming con il joystick, evento Kranos" width="1100" height="1650" fetchpriority="high">
+        <span class="g g1" aria-hidden="true"></span><span class="g g2" aria-hidden="true"></span>
+        <figcaption class="kr-shot__tag">DJ REKS × KRANOS</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -143,9 +175,21 @@
     <div class="wrap">
       <p class="eyebrow">Galleria</p>
       <h2 class="h2">Dagli eventi <span class="accent">gaming</span></h2>
-      <div class="kr-photos">
-        <div>Foto in arrivo</div><div>Foto in arrivo</div><div>Foto in arrivo</div>
-        <div>Foto in arrivo</div><div>Foto in arrivo</div><div>Foto in arrivo</div>
+      <div class="kr-gal" id="krGal">
+        <button type="button" aria-label="Ingrandisci foto 1"><img src="/assets/kranos/k1.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 2"><img src="/assets/kranos/k2.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 3"><img src="/assets/kranos/k3.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 4"><img src="/assets/kranos/k4.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 5"><img src="/assets/kranos/k5.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 6"><img src="/assets/kranos/k6.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 7"><img src="/assets/kranos/k7.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 8"><img src="/assets/kranos/k8.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 9"><img src="/assets/kranos/k9.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 10"><img src="/assets/kranos/k10.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 11"><img src="/assets/kranos/k11.webp" alt="Dj Reks live a un evento gaming con Kranos" width="1200" height="800" loading="lazy"></button>
+        <button type="button" aria-label="Ingrandisci foto 12"><img src="/assets/kranos/k12.webp" alt="Dj Reks live a un evento gaming con Kranos" width="800" height="1200" loading="lazy"></button>
+      </div>
+      <dialog class="kr-lb" id="krLb"><img alt=""><button type="button" aria-label="Chiudi">×</button></dialog>
       </div>
     </div>
   </section>
@@ -202,6 +246,20 @@
   });
   if (!shown) list.innerHTML = '<li class="event"><div></div><p class="event__name">Nuove date gaming in arrivo</p></li>';
 
+  // foto principale: si inclina seguendo il mouse
+  var shot = document.getElementById("krShot");
+  if (shot && matchMedia("(hover: hover) and (min-width: 961px)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    addEventListener("pointermove", function (e) {
+      var x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      shot.style.setProperty("--ry", (-7 + x * 14).toFixed(1) + "deg"); shot.style.setProperty("--rx", (2 - y * 10).toFixed(1) + "deg");
+    }, { passive: true });
+  }
+  // galleria: clic per ingrandire
+  var lb = document.getElementById("krLb"), lbImg = lb.querySelector("img");
+  document.querySelectorAll("#krGal button").forEach(function (b) {
+    b.addEventListener("click", function () { var i = b.querySelector("img"); lbImg.src = i.src; lbImg.alt = i.alt; if (lb.showModal) lb.showModal(); else window.open(i.src); });
+  });
+  lb.addEventListener("click", function () { lb.close(); });
   var rv = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("is-in"); io.unobserve(x.target); } }); }, { threshold: .12 });
