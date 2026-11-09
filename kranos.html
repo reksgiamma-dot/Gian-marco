@@ -49,6 +49,7 @@
   <link rel="preload" href="/assets/fonts/orbitron-black.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/styles.css">
   <style>
+    .bgvid--still { background: url("/assets/img/pattern-poster.jpg") center / cover no-repeat; }
     .kr-hero { min-height: 92svh; display: grid; place-items: center; text-align: center; padding: 120px var(--gutter) 60px; position: relative; overflow: hidden; }
     .kr-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 45% at 50% 45%, rgba(34, 229, 140, .22), transparent 70%); }
     .kr-hero > div { position: relative; }
@@ -73,9 +74,7 @@
   </style>
 </head>
 <body>
-<div class="bgvid" aria-hidden="true">
-  <video src="/assets/pattern.mp4" poster="/assets/img/pattern-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
-</div>
+<div class="bgvid bgvid--still" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
   <a class="nav__logo" href="/" aria-label="Dj Reks, torna alla home"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
@@ -180,7 +179,6 @@
   addEventListener("scroll", solid, { passive: true }); solid();
   burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
   nav.querySelectorAll(".nav__links a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("is-open"); }); });
-  var bg = document.querySelector(".bgvid video"); if (bg) { var s = function () { bg.playbackRate = .3; }; s(); bg.addEventListener("play", s); }
 
   // date gaming: le passate restano 3 giorni, poi spariscono
   var EVENTS = [
