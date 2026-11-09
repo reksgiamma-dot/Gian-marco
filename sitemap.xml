@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.djreks.com/</loc>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.djreks.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.djreks.com/en"/>
+    <image:image><image:loc>https://www.djreks.com/assets/img/og-dj-reks.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.djreks.com/en</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.djreks.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.djreks.com/en"/>
+  </url>
+  <url>
+    <loc>https://www.djreks.com/kranos</loc>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.djreks.com/suona</loc>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
