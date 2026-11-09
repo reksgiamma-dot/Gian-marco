@@ -93,7 +93,7 @@
       '<div class="event__when"><span class="event__month">' + MESI[e[1] - 1] + '</span>' +
       '<span class="event__day">' + String(e[2]).padStart(2, "0") + '</span></div>' +
       '<div><p class="event__name"></p><p class="event__where"></p></div>' +
-      '<span class="event__tag">' + (past ? (IS_EN ? "Past" : "Passata") : (IS_EN ? "Info soon" : "Info a breve")) + '</span>';
+      '' + (past ? '<span class="event__tag">' + (IS_EN ? "Past" : "Passata") + '</span>' : '');
     li.querySelector(".event__name").textContent = e[3];
     var where = e[4] || (IS_EN ? "Venue to be announced" : "Luogo da annunciare");
     li.querySelector(".event__where").textContent = where + " · " + GIORNI[d.getDay()];

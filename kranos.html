@@ -168,6 +168,7 @@
       <p class="eyebrow">Calendario</p>
       <h2 class="h2">Date <span class="accent">gaming</span></h2>
       <ol class="events" id="events"></ol>
+      <p class="events__note">Le date non segnate possono essere riservate a eventi privati. Per sapere se una data è libera <a href="#contatti">contatta il booking</a> o scrivi a <a href="mailto:2024eventi@gmail.com">2024eventi@gmail.com</a>.</p>
     </div>
   </section>
 
@@ -239,7 +240,7 @@
     var d = new Date(e[0], e[1]-1, e[2]), past = d < today;
     if (past && (today - d) / 86400000 > 3) return;
     var li = document.createElement("li"); li.className = "event" + (past ? " is-past" : "");
-    li.innerHTML = '<div class="event__when"><span class="event__month">' + MESI[e[1]-1] + '</span><span class="event__day">' + String(e[2]).padStart(2,"0") + '</span></div><div><p class="event__name"></p><p class="event__where"></p></div><span class="event__tag">' + (past ? "Passata" : "Info a breve") + '</span>';
+    li.innerHTML = '<div class="event__when"><span class="event__month">' + MESI[e[1]-1] + '</span><span class="event__day">' + String(e[2]).padStart(2,"0") + '</span></div><div><p class="event__name"></p><p class="event__where"></p></div>' + (past ? '<span class="event__tag">Passata</span>' : '');
     li.querySelector(".event__name").textContent = e[3];
     li.querySelector(".event__where").textContent = e[4] + " · " + GIORNI[d.getDay()];
     list.appendChild(li); shown++;
