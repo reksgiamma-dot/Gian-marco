@@ -40,7 +40,7 @@
   /* ---------- GALLERIA: muro in movimento ---------- */
   var wallIn = document.querySelector("#wall .wall__inner");
   if (wallIn) {
-    [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]].forEach(function (row) {
+    [[1,2,3,4,5,6],[7,8,19,9,10,11,12],[13,14,15,16,17,18]].forEach(function (row) {
       var r = document.createElement("div"); r.className = "wall__row";
       row.concat(row).forEach(function (n, k) {
         var i = new Image(); i.src = "/assets/serate-q/q" + String(n).padStart(2, "0") + ".webp";

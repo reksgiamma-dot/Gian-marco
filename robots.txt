@@ -5,6 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /anteprima-galleria
 Disallow: /press-kit
+Disallow: /kranos
 Disallow: /assets/press/
 
 # Motori di ricerca
