@@ -67,13 +67,14 @@
     [2026, 11, 21, "Inaugurazione Carta Canta", "Soliera"],
     [2026, 11, 27, "Milano Games Week · Euronics", "Milano"],
     [2026, 11, 28, "Milano Games Week · Euronics", "Milano"],
-    [2026, 11, 28, "FPV Pulp", "Formigine"],
+    [2026, 11, 28, "FPV Seven", "Formigine"],
     [2026, 12, 4, "Vibra Club", "Modena"],
     [2026, 12, 18, "Off", "Modena"],
     [2026, 12, 24, "Dude", "Soliera"],
     [2026, 12, 26, "Vibra Club", "Modena"],
+    [2026, 12, 29, "Cim1", "Sestola"],
     [2026, 12, 30, "Coming Soon", ""],
-    [2026, 12, 31, "Coming Soon", ""],
+    [2026, 12, 31, "Pala One · Palapanini", "Modena"],
     [2027, 1, 23, "Vibra Club", "Modena"]
   ];
   var MESI = IS_EN ? ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
