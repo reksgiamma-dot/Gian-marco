@@ -4,11 +4,38 @@
   "headers": [
     {
       "source": "/llms.txt",
-      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/kranos",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/kranos.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/kranos/:path*",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }
