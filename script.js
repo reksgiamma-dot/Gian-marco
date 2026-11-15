@@ -63,7 +63,7 @@
   // [anno, mese (1-12), giorno, nome, luogo]
   var EVENTS = [
     [2026, 11, 13, "Vibra Club", "Modena"],
-    [2026, 11, 20, "Oltre Shake It", "Soliera"],
+    [2026, 11, 20, "Gilda · Shake It", "Modena"],
     [2026, 11, 21, "Inaugurazione Carta Canta", "Soliera"],
     [2026, 11, 27, "Milano Games Week · Euronics", "Milano"],
     [2026, 11, 28, "Milano Games Week · Euronics", "Milano"],
