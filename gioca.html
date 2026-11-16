@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gioca con Dj Reks · Joystick Beat, il mini gioco a tempo di musica</title>
+  <meta name="description" content="Joystick Beat: il mini gioco di Dj Reks. Premi i tasti del joystick a tempo di musica, fai combo e batti il tuo record. Si gioca gratis da telefono, tablet e computer.">
+  <link rel="canonical" href="https://www.djreks.com/gioca">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Gian Marco Righi (Dj Reks)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dj Reks">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:url" content="https://www.djreks.com/gioca">
+  <meta property="og:title" content="Gioca con Dj Reks · Joystick Beat">
+  <meta property="og:description" content="Premi i tasti del joystick a tempo di musica, fai combo e batti il tuo record. Riesci a fare meglio di Dj Reks?">
+  <meta property="og:image" content="https://www.djreks.com/assets/img/og-dj-reks.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Dj Reks con il joystick della PlayStation · L'unico DJ che suona con un joystick">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gioca con Dj Reks · Joystick Beat">
+  <meta name="twitter:description" content="Premi i tasti del joystick a tempo di musica, fai combo e batti il tuo record. Riesci a fare meglio di Dj Reks?">
+  <meta name="twitter:image" content="https://www.djreks.com/assets/img/og-dj-reks.jpg">
+  <link rel="icon" href="/assets/img/icon-512.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://www.djreks.com/gioca#webpage",
+   "url": "https://www.djreks.com/gioca",
+   "name": "Gioca con Dj Reks · Joystick Beat",
+   "description": "Il mini gioco di Dj Reks: premi i tasti del joystick a tempo di musica e batti il tuo record.",
+   "isPartOf": { "@id": "https://www.djreks.com/#website" },
+   "about": { "@id": "https://www.djreks.com/#dj-reks" },
+   "inLanguage": "it-IT"
+  },
+  {
+   "@type": "VideoGame",
+   "@id": "https://www.djreks.com/gioca#gioco",
+   "name": "Joystick Beat",
+   "url": "https://www.djreks.com/gioca",
+   "description": "Mini gioco musicale nel browser: i tasti del joystick scendono a tempo di musica e vanno premuti quando arrivano sulla linea.",
+   "genre": "Rhythm game",
+   "gamePlatform": ["Web browser", "Mobile", "Tablet"],
+   "applicationCategory": "Game",
+   "operatingSystem": "Qualsiasi",
+   "isAccessibleForFree": true,
+   "inLanguage": "it-IT",
+   "author": { "@id": "https://www.djreks.com/#dj-reks" }
+  }
+ ]
+}
+  </script>
+  <meta name="theme-color" content="#06080A">
+  <link rel="preload" href="/assets/fonts/orbitron-black.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    html, body { background: #000; }
+    .game { min-height: 100svh; padding: 96px var(--gutter) 48px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .game__head .h2 { margin-bottom: 8px; }
+    .game__lead { color: var(--muted); max-width: 540px; margin: 0 auto 20px; }
+    .stage { position: relative; width: min(520px, 100%); height: min(72svh, 760px); min-height: 440px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(34, 229, 140, .28); background: radial-gradient(120% 70% at 50% 100%, rgba(34, 229, 140, .10), transparent 60%), #05070A; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .hud { position: absolute; inset: 0 0 auto 0; display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 16px; pointer-events: none; font-family: var(--display); text-transform: uppercase; }
+    .hud__box { text-align: left; }
+    .hud__box--r { text-align: right; }
+    .hud__lbl { display: block; font-family: var(--body); font-size: 10px; letter-spacing: .24em; color: var(--muted); font-weight: 700; }
+    .hud__val { display: block; font-size: 20px; color: var(--text); line-height: 1.2; }
+    .hud__mult { color: var(--accent); }
+    .progress { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: rgba(255, 255, 255, .06); pointer-events: none; }
+    .progress span { display: block; height: 100%; width: 0; background: var(--accent); box-shadow: 0 0 10px var(--glow); }
+    .screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 28px; background: rgba(4, 6, 8, .82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    .screen[hidden] { display: none; }
+    .screen__title { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(26px, 7vw, 38px); line-height: 1.05; }
+    .screen p { color: var(--muted); max-width: 340px; font-size: 15px; }
+    .screen .btn { min-width: 200px; }
+    .keys { display: flex; gap: 10px; justify-content: center; margin: 4px 0; }
+    .keys span { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; color: var(--accent); font-size: 20px; box-shadow: 0 0 16px var(--glow) inset; }
+    .keys small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+    .keys div { display: flex; flex-direction: column; align-items: center; }
+    .rank { font-family: var(--display); font-size: 64px; line-height: 1; color: var(--accent); text-shadow: 0 0 30px var(--glow); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 360px; }
+    .stats div { background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 12px; padding: 8px 4px; }
+    .stats strong { display: block; font-family: var(--display); font-size: 18px; }
+    .stats span { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .record { color: var(--accent) !important; font-weight: 700; }
+    .screen__row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .btn--ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+    .game__bar { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .chip { font: inherit; font-size: 14px; color: var(--text); background: rgba(12, 16, 20, .85); border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; cursor: pointer; }
+    .chip.is-on { border-color: var(--accent); color: var(--accent); }
+    .game__tip { margin-top: 12px; font-size: 13px; color: var(--muted); max-width: 520px; }
+    .game__more { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    @media (max-width: 600px) {
+      .game { padding: 80px 0 32px; }
+      .game__head { padding: 0 var(--gutter); }
+      .stage { width: 100%; height: calc(100svh - 150px); min-height: 420px; border-radius: 0; border-left: 0; border-right: 0; }
+      .game__lead { display: none; }
+      .game__head .h2 { font-size: 26px; margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="/" aria-label="Dj Reks, torna alla home"><img src="/assets/img/logo.png" alt="DJ REKS"></a>
+  <nav class="nav__links" aria-label="Menu principale">
+    <a href="/">Home</a>
+    <a href="/#date">Date</a>
+    <a href="/suona">Suona</a>
+    <a href="/#booking" class="nav__cta">Booking</a>
+  </nav>
+  <div class="lang">
+    <a href="/" hreflang="it" lang="it" title="Italiano" aria-label="Italiano" aria-current="true"><svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/></svg></a>
+    <a href="/en" hreflang="en" lang="en" title="English" aria-label="English"><svg viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#b22234"/><path d="M0 1.15h19M0 2.7h19M0 4.23h19M0 5.77h19M0 7.3h19M0 8.85h19" stroke="#fff" stroke-width=".77"/><rect width="7.6" height="5.38" fill="#3c3b6e"/></svg></a>
+  </div>
+  <button class="nav__burger" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<main class="game">
+  <div class="game__head">
+    <p class="eyebrow">Mini gioco</p>
+    <h1 class="h2">Joystick <span class="accent">Beat</span></h1>
+    <p class="game__lead">I tasti del joystick scendono a tempo di musica: premili quando toccano la linea. Più combo fai, più punti prendi.</p>
+  </div>
+
+  <div class="stage" id="stage">
+    <canvas id="cv" aria-label="Area di gioco: quattro corsie con i tasti del joystick"></canvas>
+    <div class="progress"><span id="prog"></span></div>
+    <div class="hud" aria-hidden="true">
+      <div class="hud__box"><span class="hud__lbl">Punti</span><span class="hud__val" id="score">0</span></div>
+      <div class="hud__box hud__box--r"><span class="hud__lbl">Combo</span><span class="hud__val"><span id="combo">0</span> <span class="hud__mult" id="mult"></span></span></div>
+    </div>
+
+    <div class="screen" id="start">
+      <div class="screen__title">Pronto a fare<br>il <span class="accent">DJ</span>?</div>
+      <div class="keys" aria-hidden="true">
+        <div><span>△</span><small class="kb">D</small></div>
+        <div><span>○</span><small class="kb">F</small></div>
+        <div><span>✕</span><small class="kb">J</small></div>
+        <div><span>□</span><small class="kb">K</small></div>
+      </div>
+      <p id="how">Tocca la corsia giusta quando il tasto arriva sulla linea. La base è <strong>River</strong>, prodotta da Dj Reks: tre minuti per fare più combo che puoi.</p>
+      <p class="record" id="best-start" hidden></p>
+      <button class="btn btn--primary" type="button" id="play">▶ Gioca</button>
+      <p style="font-size:12px">Alza il volume 🔊 · Livello: difficile</p>
+    </div>
+
+    <div class="screen" id="pause" hidden>
+      <div class="screen__title">Pausa</div>
+      <div class="screen__row">
+        <button class="btn btn--primary" type="button" id="resume">▶ Riprendi</button>
+        <button class="btn btn--ghost" type="button" id="restart-p">Ricomincia</button>
+      </div>
+    </div>
+
+    <div class="screen" id="end" hidden>
+      <p class="eyebrow" style="margin:0">Fine set</p>
+      <div class="rank" id="rank">A</div>
+      <div class="screen__title" id="final">0</div>
+      <p class="record" id="newbest" hidden>Nuovo record!</p>
+      <div class="stats">
+        <div><strong id="s-acc">0%</strong><span>Precisione</span></div>
+        <div><strong id="s-combo">0</strong><span>Combo max</span></div>
+        <div><strong id="s-best">0</strong><span>Record</span></div>
+      </div>
+      <p id="msg"></p>
+      <div class="screen__row">
+        <button class="btn btn--primary" type="button" id="again">↻ Rigioca</button>
+        <button class="btn btn--ghost" type="button" id="share">Sfida un amico</button>
+      </div>
+      <a class="btn btn--ghost" href="/#booking">Vuoi Dj Reks dal vivo? Booking</a>
+    </div>
+  </div>
+
+  <div class="game__bar">
+    <button class="chip" type="button" id="pause-btn">❚❚ Pausa</button>
+    <button class="chip is-on" type="button" id="snd-btn">🔊 Audio</button>
+  </div>
+  <p class="game__tip" id="tip">Gioca dal telefono in verticale con due pollici: ogni corsia è un tasto.</p>
+
+  <div class="game__more">
+    <a class="btn btn--ghost" href="/suona">Suona il joystick libero</a>
+    <a class="btn btn--primary" href="/#date">Scopri le date</a>
+  </div>
+</main>
+
+<script>
+(function () {
+  var nav = document.getElementById("nav"), burger = nav.querySelector(".nav__burger");
+  burger.addEventListener("click", function () { var o = nav.classList.toggle("is-open"); burger.setAttribute("aria-expanded", o); });
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+
+  var $ = function (id) { return document.getElementById(id); };
+  var stage = $("stage"), cv = $("cv"), g = cv.getContext("2d");
+  var BEST_KEY = "djreks-joystick-beat-record";
+  function getBest() { try { return +localStorage.getItem(BEST_KEY) || 0; } catch (e) { return 0; } }
+  function setBest(v) { try { localStorage.setItem(BEST_KEY, v); } catch (e) {} }
+
+  /* ---------- AUDIO ---------- */
+  var ctx, master, muted = false;
+  function audioInit() {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value = 1; master.connect(ctx.destination);
+    Object.keys(raw).forEach(decode);
+  }
+  function audio() {
+    if (!ctx) audioInit();
+    if (ctx.state === "suspended" && state !== "pause") ctx.resume();
+    return ctx;
+  }
+  // la canzone (River, prodotta da Dj Reks) e i campioni si scaricano solo su questa pagina
+  var raw = {}, buf = {}, onReady = {};
+  function decode(n) {
+    if (!ctx || !raw[n] || buf[n]) return;
+    var a = raw[n]; raw[n] = null;
+    ctx.decodeAudioData(a, function (b) { buf[n] = b; if (onReady[n]) { onReady[n](); onReady[n] = null; } }, function () {});
+  }
+  // il contesto audio nasce subito (in pausa finché non tocchi Gioca), così la canzone è già pronta al primo tocco
+  function makeCtx() { if (!ctx) { try { audioInit(); } catch (e) {} } }
+  function load(n, url) { fetch(url).then(function (r) { return r.arrayBuffer(); }).then(function (a) { raw[n] = a; makeCtx(); decode(n); }).catch(function () {}); }
+  load("song", "/assets/gioco/river.mp3");
+  ["reks", "horn", "sirena", "triplo"].forEach(function (n) { load(n, "/assets/sounds/" + n + ".mp3"); });
+  function sample(n, vol) { if (!buf[n] || muted) return; var s = ctx.createBufferSource(), gg = ctx.createGain(); gg.gain.value = vol || .6; s.buffer = buf[n]; s.connect(gg); gg.connect(master); s.start(); }
+
+  /* ---------- SPARTITO ---------- */
+  // le note sono state ricavate dalla canzone: ogni tasto cade su un colpo vero del pezzo
+  var CHART = null, BEAT = 60 / 128, BAR0 = 0;
+  fetch("/assets/gioco/river.json").then(function (r) { return r.json(); }).then(function (d) { CHART = d.note; BEAT = 60 / d.bpm; BAR0 = d.bar0; }).catch(function () {});
+
+  /* ---------- STATO ---------- */
+  var chart = [], state = "idle", t0 = 0, song = null, songLen = 1, firstNote = 0;
+  var score = 0, combo = 0, maxCombo = 0, hits = 0, perfect = 0, wrong = 0, totalNotes = 0;
+  var lanesFlash = [0, 0, 0, 0], pops = [], shake = 0, lastFrame = 0;
+  var JUDGE = [{ w: .045, txt: "Perfetto", pts: 300 }, { w: .085, txt: "Ottimo", pts: 200 }, { w: .125, txt: "Buono", pts: 100 }];
+  var MISS_W = .125, LEAD = 0.6;
+  function mult() { return Math.min(4, 1 + Math.floor(combo / 15) * .5); }
+  function now() { return ctx ? ctx.currentTime - t0 - (ctx.outputLatency || ctx.baseLatency || 0) : 0; }
+
+  var playBtn = $("play");
+  function start() {
+    audio();
+    if (!buf.song || !CHART) {
+      playBtn.disabled = true; playBtn.textContent = "Carico la canzone…";
+      onReady.song = function () { setTimeout(start, 50); };
+      if (buf.song && !CHART) setTimeout(start, 300);
+      return;
+    }
+    playBtn.disabled = false; playBtn.textContent = "▶ Gioca";
+    if (song) { try { song.stop(); } catch (e) {} }
+    chart = CHART.map(function (n) { return { t: n[0], lane: n[1], done: 0 }; });
+    totalNotes = chart.length; firstNote = chart[0].t;
+    score = combo = maxCombo = hits = perfect = wrong = 0; pops = []; lanesFlash = [0, 0, 0, 0];
+    song = ctx.createBufferSource(); song.buffer = buf.song; songLen = buf.song.duration;
+    var sg = ctx.createGain(); sg.gain.value = muted ? 0 : 1; song._g = sg;
+    song.connect(sg); sg.connect(master);
+    t0 = ctx.currentTime + LEAD; song.start(t0);
+    state = "play";
+    $("start").hidden = $("end").hidden = $("pause").hidden = true;
+    updateHud();
+  }
+  function finish() {
+    state = "end";
+    var acc = totalNotes ? Math.round((hits / (totalNotes + wrong)) * 100) : 0;
+    var rank = acc >= 96 && perfect / Math.max(1, hits) > .75 ? "S" : acc >= 88 ? "A" : acc >= 72 ? "B" : acc >= 50 ? "C" : "D";
+    var best = getBest(), isNew = score > best; if (isNew) { setBest(score); best = score; }
+    $("rank").textContent = rank; $("final").textContent = score.toLocaleString("it-IT");
+    $("s-acc").textContent = acc + "%"; $("s-combo").textContent = maxCombo; $("s-best").textContent = best.toLocaleString("it-IT");
+    $("newbest").hidden = !isNew;
+    $("msg").textContent = { S: "Set perfetto: sei pronto per la consolle.", A: "Grande set! Il pubblico è tutto per te.", B: "Bella serata, ma il record si può battere.", C: "Ci sei quasi: riprova e senti il tempo.", D: "Il joystick va domato: rigioca!" }[rank];
+    $("end").hidden = false;
+    if (isNew && score > 0) sample("triplo", .6);
+    lastResult = { score: score, rank: rank };
+    showBest();
+  }
+  function quit() { if (song) { try { song.stop(); } catch (e) {} song = null; } }
+  var lastResult = null;
+
+  function pause() { if (state !== "play") return; state = "pause"; ctx.suspend(); $("pause").hidden = false; }
+  function resume() { if (state !== "pause") return; $("pause").hidden = true; ctx.resume().then(function () { state = "play"; }); }
+
+  /* ---------- INPUT ---------- */
+  function press(l) {
+    if (state !== "play") return;
+    lanesFlash[l] = 1;
+    var tn = now(), best = null, bd = 9;
+    for (var i = 0; i < chart.length; i++) {
+      var n = chart[i]; if (n.done || n.lane !== l) continue;
+      var d = Math.abs(n.t - tn); if (d < bd) { bd = d; best = n; }
+      if (n.t - tn > MISS_W) break;
+    }
+    if (!best || bd > MISS_W) { // tocco fuori tempo: si perde la combo (niente "spam" di tocchi)
+      wrong++; combo = 0; pops.push({ lane: l, txt: "Fuori tempo", life: .8, good: false }); updateHud(); return;
+    }
+    var j = JUDGE[2]; for (var k = 0; k < JUDGE.length; k++) if (bd <= JUDGE[k].w) { j = JUDGE[k]; break; }
+    best.done = 1; hits++; if (j === JUDGE[0]) perfect++;
+    combo++; if (combo > maxCombo) maxCombo = combo;
+    score += Math.round(j.pts * mult());
+    pops.push({ lane: l, txt: j.txt, life: 1, good: true });
+    best.hitAt = performance.now();
+    if (combo === 50) sample("horn", .5);
+    if (combo === 100) sample("reks", .7);
+    if (combo === 200) sample("sirena", .5);
+    updateHud();
+  }
+  function laneFromX(x) { var r = cv.getBoundingClientRect(); return Math.max(0, Math.min(3, Math.floor((x - r.left) / r.width * 4))); }
+  stage.addEventListener("pointerdown", function (e) {
+    if (state !== "play") return;
+    e.preventDefault(); press(laneFromX(e.clientX));
+  });
+  var KEYMAP = { d: 0, f: 1, j: 2, k: 3, arrowleft: 0, arrowdown: 1, arrowup: 2, arrowright: 3, a: 0, s: 1, l: 3 };
+  addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === "escape" || k === "p") { state === "play" ? pause() : resume(); return; }
+    if ((k === " " || k === "enter") && state !== "play") { e.preventDefault(); if (state === "pause") resume(); else start(); return; }
+    if (e.repeat) return;
+    if (k in KEYMAP && state === "play") { e.preventDefault(); press(KEYMAP[k]); }
+  });
+
+  $("play").addEventListener("click", start);
+  $("again").addEventListener("click", start);
+  $("restart-p").addEventListener("click", function () { $("pause").hidden = true; quit(); state = "idle"; ctx.resume().then(start); });
+  $("resume").addEventListener("click", resume);
+  $("pause-btn").addEventListener("click", function () { state === "play" ? pause() : resume(); });
+  $("snd-btn").addEventListener("click", function () { muted = !muted; this.classList.toggle("is-on", !muted); this.textContent = muted ? "🔇 Audio spento" : "🔊 Audio"; if (song && song._g) song._g.gain.value = muted ? 0 : 1; });
+  document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+  $("share").addEventListener("click", function () {
+    if (!lastResult) return;
+    var text = "Ho fatto " + lastResult.score.toLocaleString("it-IT") + " punti (voto " + lastResult.rank + ") a Joystick Beat, il gioco di Dj Reks. Riesci a battermi?";
+    var url = "https://www.djreks.com/gioca", btn = this;
+    if (navigator.share) { navigator.share({ title: "Joystick Beat · Dj Reks", text: text, url: url }).catch(function () {}); return; }
+    var full = text + " " + url;
+    (navigator.clipboard ? navigator.clipboard.writeText(full) : Promise.reject()).then(function () { btn.textContent = "Link copiato ✓"; setTimeout(function () { btn.textContent = "Sfida un amico"; }, 2000); }, function () { prompt("Copia e manda ai tuoi amici:", full); });
+  });
+
+  function showBest() { var b = getBest(); var el = $("best-start"); if (b) { el.hidden = false; el.textContent = "Il tuo record: " + b.toLocaleString("it-IT"); } }
+  showBest();
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    $("tip").textContent = "Dal computer usa D F J K (oppure le frecce). Spazio per iniziare, P per la pausa.";
+  } else {
+    Array.prototype.forEach.call(document.querySelectorAll(".kb"), function (el) { el.hidden = true; });
+  }
+
+  /* ---------- GRAFICA ---------- */
+  var W = 0, H = 0, DPR = 1;
+  function resize() { DPR = Math.min(2, window.devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * DPR; cv.height = H * DPR; g.setTransform(DPR, 0, 0, DPR, 0, 0); }
+  addEventListener("resize", resize); resize();
+
+  var ACC = "#22E58C", COLORS = ["#22E58C", "#3CF0C8", "#A6F55A", "#1FC27A"];
+  function symbol(l, x, y, r, color, lw) {
+    g.strokeStyle = color; g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round"; g.beginPath();
+    if (l === 0) { g.moveTo(x, y - r); g.lineTo(x + r * .95, y + r * .7); g.lineTo(x - r * .95, y + r * .7); g.closePath(); }
+    else if (l === 1) { g.arc(x, y, r * .85, 0, Math.PI * 2); }
+    else if (l === 2) { var q = r * .75; g.moveTo(x - q, y - q); g.lineTo(x + q, y + q); g.moveTo(x + q, y - q); g.lineTo(x - q, y + q); }
+    else { var s = r * .75; g.rect(x - s, y - s, s * 2, s * 2); }
+    g.stroke();
+  }
+  var TRAVEL = 1.15; // secondi che un tasto impiega a scendere
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    var dt = Math.min(.05, (ts - lastFrame) / 1000 || 0); lastFrame = ts;
+    var lw = W / 4, hitY = H - Math.max(70, H * .14), R = Math.min(lw * .3, 30);
+    g.clearRect(0, 0, W, H);
+
+    // corsie
+    for (var l = 0; l < 4; l++) {
+      var x0 = l * lw;
+      var grad = g.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, "rgba(34,229,140,0)");
+      grad.addColorStop(1, "rgba(34,229,140," + (0.05 + lanesFlash[l] * .22) + ")");
+      g.fillStyle = grad; g.fillRect(x0, 0, lw, H);
+      if (l) { g.fillStyle = "rgba(255,255,255,.06)"; g.fillRect(x0, 0, 1, H); }
+      lanesFlash[l] = Math.max(0, lanesFlash[l] - dt * 6);
+    }
+    // linea di battuta
+    var beatFlash = 0;
+    if (state === "play" || state === "pause") { var bp = ((now() - BAR0) / BEAT) % 1; if (bp < 0) bp += 1; beatFlash = Math.max(0, 1 - bp * 4); }
+    g.fillStyle = "rgba(34,229,140," + (.35 + beatFlash * .5) + ")";
+    g.shadowColor = ACC; g.shadowBlur = 12 + beatFlash * 20;
+    g.fillRect(0, hitY - 1.5, W, 3); g.shadowBlur = 0;
+    // bersagli
+    for (l = 0; l < 4; l++) {
+      var cx = l * lw + lw / 2, pressed = lanesFlash[l];
+      g.fillStyle = "rgba(6,8,10," + (.85 - pressed * .4) + ")";
+      g.beginPath(); g.arc(cx, hitY, R * 1.15, 0, Math.PI * 2); g.fill();
+      g.strokeStyle = "rgba(34,229,140," + (.35 + pressed * .65) + ")"; g.lineWidth = 2;
+      g.beginPath(); g.arc(cx, hitY, R * 1.15 + pressed * 6, 0, Math.PI * 2); g.stroke();
+      symbol(l, cx, hitY, R * .55, "rgba(238,246,248," + (.3 + pressed * .7) + ")", 2.5);
+    }
+
+    if (state === "play" || state === "pause") {
+      var tn = now();
+      $("prog").style.width = Math.min(100, Math.max(0, tn / songLen * 100)) + "%";
+      // conto alla rovescia prima della prima nota
+      var wait = firstNote - TRAVEL - tn;
+      if (wait > -.3) {
+        var txt = wait > 3 ? "PRONTI" : wait > 0 ? String(Math.ceil(wait)) : "VIA!";
+        g.globalAlpha = wait > 0 ? 1 : Math.max(0, 1 + wait / .3);
+        g.fillStyle = "rgba(238,246,248,.92)"; g.textAlign = "center"; g.textBaseline = "middle";
+        g.font = "900 " + Math.round(W * (txt.length > 2 ? .08 : .16)) + "px Orbitron, sans-serif";
+        g.fillText(txt, W / 2, H * .42); g.globalAlpha = 1;
+      }
+      for (var i = 0; i < chart.length; i++) {
+        var n = chart[i], ahead = n.t - tn;
+        if (ahead > TRAVEL + .1) break;
+        if (n.done === 1) {
+          var age = (performance.now() - n.hitAt) / 1000;
+          if (age < .25) { var cxh = n.lane * lw + lw / 2; g.globalAlpha = 1 - age / .25; g.strokeStyle = COLORS[n.lane]; g.lineWidth = 3; g.beginPath(); g.arc(cxh, hitY, R * (1.1 + age * 4), 0, Math.PI * 2); g.stroke(); g.globalAlpha = 1; }
+          continue;
+        }
+        if (n.done === 2) continue;
+        if (ahead < -MISS_W && state === "play") { n.done = 2; combo = 0; pops.push({ lane: n.lane, txt: "Mancato", life: 1, good: false }); shake = 1; updateHud(); continue; }
+        var y = hitY - (ahead / TRAVEL) * hitY, cxn = n.lane * lw + lw / 2;
+        g.fillStyle = "rgba(6,8,10,.92)"; g.beginPath(); g.arc(cxn, y, R, 0, Math.PI * 2); g.fill();
+        g.shadowColor = COLORS[n.lane]; g.shadowBlur = 16;
+        g.strokeStyle = COLORS[n.lane]; g.lineWidth = 2.5; g.beginPath(); g.arc(cxn, y, R, 0, Math.PI * 2); g.stroke();
+        symbol(n.lane, cxn, y, R * .5, COLORS[n.lane], 3);
+        g.shadowBlur = 0;
+      }
+      if (state === "play" && tn > songLen - .2) finish();
+    }
+    // scritte "Perfetto" ecc.
+    g.textAlign = "center"; g.textBaseline = "middle";
+    for (var p = pops.length - 1; p >= 0; p--) {
+      var po = pops[p]; po.life -= dt * 1.8;
+      if (po.life <= 0) { pops.splice(p, 1); continue; }
+      g.globalAlpha = Math.min(1, po.life * 1.5);
+      g.fillStyle = po.good ? ACC : "#FF5A6E";
+      g.font = "900 " + Math.round(Math.min(15, lw * .14)) + "px Orbitron, sans-serif";
+      g.fillText(po.txt.toUpperCase(), po.lane * lw + lw / 2, hitY - R * 1.9 - (1 - po.life) * 26);
+      g.globalAlpha = 1;
+    }
+    if (shake > 0) { shake = Math.max(0, shake - dt * 5); stage.style.transform = "translateX(" + (Math.sin(ts / 16) * shake * 4).toFixed(1) + "px)"; if (!shake) stage.style.transform = ""; }
+  }
+  requestAnimationFrame(frame);
+
+  function updateHud() {
+    $("score").textContent = score.toLocaleString("it-IT");
+    $("combo").textContent = combo;
+    var m = mult(); $("mult").textContent = m > 1 ? "×" + m : "";
+  }
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
