@@ -343,3 +343,16 @@ body { background: transparent; }
 .gioca-cta__txt .h2 { margin-bottom: 6px; font-size: clamp(24px, 3vw, 36px); }
 .gioca-cta__lead { color: var(--muted); }
 @media (max-width: 600px) { .gioca-cta { flex-direction: column; text-align: center; } .gioca-cta__txt { text-align: center; } .gioca-cta__keys { grid-template-columns: repeat(4, 44px); } }
+
+/* voce "Gioca" in evidenza nella barra in alto */
+.nav__links .nav__game { color: var(--accent); font-weight: 700; }
+.nav__links .nav__game:hover { text-shadow: 0 0 12px var(--glow); }
+.nav__play { display: none; }
+@media (max-width: 900px) { .nav__play { display: inline-flex; align-items: center; gap: 4px; margin-right: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(34, 229, 140, .6); color: var(--accent); font-size: 13px; font-weight: 700; white-space: nowrap; } }
+@media (max-width: 600px) {
+  .nav__logo img { height: 17px; }
+  .lang { gap: 6px; margin-right: 10px; }
+  .lang a { width: 22px; height: 15px; }
+  .nav__play { padding: 5px 10px; font-size: 12px; margin-right: 10px; }
+}
+@media (max-width: 360px) { .nav__logo img { height: 15px; } .lang { margin-left: 10px; } .nav__play { margin-right: 6px; } }
