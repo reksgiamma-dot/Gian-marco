@@ -154,7 +154,7 @@
       <p id="how">Tocca la corsia giusta quando il tasto arriva sulla linea. La base è <strong>River</strong>, prodotta da Dj Reks: tre minuti per fare più combo che puoi.</p>
       <p class="record" id="best-start" hidden></p>
       <button class="btn btn--primary" type="button" id="play">▶ Gioca</button>
-      <p style="font-size:12px">Alza il volume 🔊 · Livello: difficile</p>
+      <p style="font-size:12px">Alza il volume 🔊 · Livello: medio</p>
     </div>
 
     <div class="screen" id="pause" hidden>
@@ -253,9 +253,9 @@
   var chart = [], state = "idle", t0 = 0, song = null, songLen = 1, firstNote = 0;
   var score = 0, combo = 0, maxCombo = 0, hits = 0, perfect = 0, wrong = 0, totalNotes = 0;
   var lanesFlash = [0, 0, 0, 0], pops = [], shake = 0, lastFrame = 0;
-  var JUDGE = [{ w: .045, txt: "Perfetto", pts: 300 }, { w: .085, txt: "Ottimo", pts: 200 }, { w: .125, txt: "Buono", pts: 100 }];
-  var MISS_W = .125, LEAD = 0.6;
-  function mult() { return Math.min(4, 1 + Math.floor(combo / 15) * .5); }
+  var JUDGE = [{ w: .06, txt: "Perfetto", pts: 300 }, { w: .11, txt: "Ottimo", pts: 200 }, { w: .16, txt: "Buono", pts: 100 }];
+  var MISS_W = .16, LEAD = 0.6;
+  function mult() { return Math.min(4, 1 + Math.floor(combo / 10) * .5); }
   function now() { return ctx ? ctx.currentTime - t0 - (ctx.outputLatency || ctx.baseLatency || 0) : 0; }
 
   var playBtn = $("play");
@@ -308,9 +308,10 @@
     for (var i = 0; i < chart.length; i++) {
       var n = chart[i]; if (n.done || n.lane !== l) continue;
       var d = Math.abs(n.t - tn); if (d < bd) { bd = d; best = n; }
-      if (n.t - tn > MISS_W) break;
+      if (n.t - tn > .35) break;
     }
-    if (!best || bd > MISS_W) { // tocco fuori tempo: si perde la combo (niente "spam" di tocchi)
+    if (!best || bd > MISS_W) { // tocco fuori tempo: si perde la combo, ma solo se non c'è nessun tasto vicino
+      if (best && bd < .35) return;
       wrong++; combo = 0; pops.push({ lane: l, txt: "Fuori tempo", life: .8, good: false }); updateHud(); return;
     }
     var j = JUDGE[2]; for (var k = 0; k < JUDGE.length; k++) if (bd <= JUDGE[k].w) { j = JUDGE[k]; break; }
@@ -377,7 +378,7 @@
     else { var s = r * .75; g.rect(x - s, y - s, s * 2, s * 2); }
     g.stroke();
   }
-  var TRAVEL = 1.15; // secondi che un tasto impiega a scendere
+  var TRAVEL = 1.4; // secondi che un tasto impiega a scendere
   function frame(ts) {
     requestAnimationFrame(frame);
     var dt = Math.min(.05, (ts - lastFrame) / 1000 || 0); lastFrame = ts;
