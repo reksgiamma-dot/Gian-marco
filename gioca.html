@@ -95,6 +95,13 @@
     .chip.is-on { border-color: var(--accent); color: var(--accent); }
     .game__tip { margin-top: 12px; font-size: 13px; color: var(--muted); max-width: 520px; }
     .game__more { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .brano { margin-top: 40px; width: min(560px, 100%); padding: 24px clamp(18px, 4vw, 28px); border-radius: 20px; border: 1px solid var(--line); background: rgba(12, 16, 20, .7); }
+    .brano .eyebrow { margin-bottom: 8px; }
+    .brano__title { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(22px, 5vw, 30px); line-height: 1.1; margin-bottom: 12px; }
+    .brano p { color: var(--muted); margin-bottom: 18px; }
+    .brano__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; background: var(--accent); color: #04140C; font-weight: 700; }
+    .brano__btn svg { width: 22px; height: 22px; }
+    @media (max-width: 600px) { .brano { width: calc(100% - 2 * var(--gutter)); } }
     @media (max-width: 600px) {
       .game { padding: 80px 0 32px; }
       .game__head { padding: 0 var(--gutter); }
@@ -182,6 +189,16 @@
     <button class="chip is-on" type="button" id="snd-btn">🔊 Audio</button>
   </div>
   <p class="game__tip" id="tip">Gioca dal telefono in verticale con due pollici: ogni corsia è un tasto.</p>
+
+  <section class="brano" aria-labelledby="brano-titolo">
+    <p class="eyebrow">La base del gioco</p>
+    <h2 class="brano__title" id="brano-titolo">River · <span class="accent">Dj Reks</span></h2>
+    <p>River è un brano prodotto da Dj Reks: 128 BPM di energia pensati per la pista. È la colonna sonora di Joystick Beat, e ogni tasto del gioco cade su un colpo vero del pezzo. Ti è piaciuto? Ascoltalo intero su Spotify.</p>
+    <a class="brano__btn" href="https://open.spotify.com/track/3VJkoveqfmQ3LaaGPUBw5G" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.4a.62.62 0 0 1-.86.2c-2.35-1.44-5.3-1.76-8.79-.96a.62.62 0 1 1-.28-1.22c3.81-.87 7.08-.5 9.72 1.12.3.18.39.57.2.86Zm1.22-2.72a.78.78 0 0 1-1.07.26c-2.69-1.65-6.78-2.13-9.96-1.17a.78.78 0 1 1-.45-1.49c3.63-1.1 8.15-.57 11.23 1.33.37.23.49.71.25 1.07Zm.1-2.83C14.7 8.94 9.37 8.76 6.3 9.7a.94.94 0 1 1-.55-1.8c3.53-1.07 9.4-.86 13.1 1.33a.94.94 0 0 1-.96 1.62Z"/></svg>
+      Ascolta River su Spotify
+    </a>
+  </section>
 
   <div class="game__more">
     <a class="btn btn--ghost" href="/suona">Suona il joystick libero</a>
