@@ -31,6 +31,7 @@
 - [Home (italiano)](https://www.djreks.com/): chi è Dj Reks, prossime date, musica, brand, galleria, booking e biografia
 - [Home (English)](https://www.djreks.com/en): the same page in English
 - [Suona come Dj Reks](https://www.djreks.com/suona): un joystick virtuale da provare, con i tasti che suonano
+- [Joystick Beat](https://www.djreks.com/gioca): il mini gioco di Dj Reks, si premono i tasti del joystick a tempo di musica
 
 ## Domande frequenti
 

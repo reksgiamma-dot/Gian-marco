@@ -331,3 +331,15 @@ body { background: transparent; }
 .lang a[aria-current="true"] { opacity: 1; outline-color: var(--accent); }
 .lang svg { display: block; width: 100%; height: 100%; }
 @media (max-width: 900px) { .lang { margin-left: auto; margin-right: 14px; } }
+
+/* invito al mini gioco Joystick Beat */
+.gioca-cta { margin-top: 18px; display: flex; align-items: center; gap: clamp(16px, 3vw, 36px); padding: clamp(20px, 3vw, 32px); border-radius: 28px; border: 1px solid rgba(34, 229, 140, .3); background: radial-gradient(80% 140% at 0% 50%, rgba(34, 229, 140, .12), transparent 60%), #06080A; color: inherit; }
+.gioca-cta__keys { display: grid; grid-template-columns: repeat(2, 44px); gap: 8px; flex: none; }
+.gioca-cta__keys i { font-style: normal; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); display: grid; place-items: center; font-size: 18px; box-shadow: 0 0 14px var(--glow) inset; transition: transform .3s; }
+.gioca-cta:hover .gioca-cta__keys i:nth-child(odd) { transform: translateY(-4px); }
+.gioca-cta:hover .gioca-cta__keys i:nth-child(even) { transform: translateY(4px); }
+.gioca-cta__txt { flex: 1; display: flex; flex-direction: column; text-align: left; }
+.gioca-cta__txt .eyebrow { margin-bottom: 6px; }
+.gioca-cta__txt .h2 { margin-bottom: 6px; font-size: clamp(24px, 3vw, 36px); }
+.gioca-cta__lead { color: var(--muted); }
+@media (max-width: 600px) { .gioca-cta { flex-direction: column; text-align: center; } .gioca-cta__txt { text-align: center; } .gioca-cta__keys { grid-template-columns: repeat(4, 44px); } }
