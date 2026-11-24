@@ -75,7 +75,8 @@
     [2026, 12, 29, "Cim1", "Sestola"],
     [2026, 12, 30, "Coming Soon", ""],
     [2026, 12, 31, "Pala One · Palapanini", "Modena"],
-    [2027, 1, 23, "Vibra Club", "Modena"]
+    [2027, 1, 23, "Vibra Club", "Modena"],
+    [2027, 2, 25, "Danny Green", "Carpi"]
   ];
   var MESI = IS_EN ? ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
                    : ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
